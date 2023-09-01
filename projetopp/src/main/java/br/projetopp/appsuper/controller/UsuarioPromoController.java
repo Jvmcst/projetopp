@@ -5,6 +5,7 @@
 package br.projetopp.appsuper.controller;
 
 import br.projetopp.appsuper.model.Promocao;
+import br.projetopp.appsuper.model.UsuarioPromo;
 import br.projetopp.appsuper.service.UsuarioPromoService;
 import java.util.List;
 
@@ -41,23 +42,23 @@ public class UsuarioPromoController {
     @GetMapping("/{idPromocao}")
     public Promocao get(@PathVariable("idUsuario") int idUsuario,
             @PathVariable("idPromocao") int idPromocao) {
-        Promocao promocao = usuariopromocaoservice.get(idUsuario, idPromocao);
+        Promocao promocao = usuariopromoservice.get(idUsuario, idPromocao);
         return promocao;
     }
 
     @PostMapping({"", "/"})
-    public Promocao insert(@RequestBody usuarioPromocao usuariopromocao) {
-        Promocao promocao = usuariopromocaoservice.insert(usuariopromocao);
+    public Promocao insert(@RequestBody UsuarioPromo usuariopromo) {
+        Promocao promocao = usuariopromoservice.insert(usuariopromo);
         return promocao;
     }
 
     @DeleteMapping({"", "/"})
     public List<Promocao> deleteByUsuario(@PathVariable("idUsuario") int idUsuario) {
-        List<Promocao> promocaoList = usuariopromocaoservice.getByUsuario(idUsuario);
+        List<Promocao> promocaoList = usuariopromoservice.getByUsuario(idUsuario);
         if (promocaoList == null || promocaoList.isEmpty()) {
             throw new RuntimeException("Nao existe usuario com este id para ser excluido....");
         }
-        usuariopromocaoservice.deleteByUsuario(idUsuario);
+        usuariopromoservice.deleteByUsuario(idUsuario);
         return promocaoList;
     }
 
@@ -66,11 +67,11 @@ public class UsuarioPromoController {
             @PathVariable("idUsuario") int idUsuario,
             @PathVariable("idPromocao") int idPromocao
     ) {
-        Promocao promocao = usuariopromocaoservice.get(idUsuario, idPromocao);
+        Promocao promocao = usuariopromoservice.get(idUsuario, idPromocao);
         if (promocao == null) {
             throw new RuntimeException("Nao existe promocao com este id para ser excluido....");
         }
-        usuariopromocaoservice.delete(idUsuario, idPromocao);
+        usuariopromoservice.delete(idUsuario, idPromocao);
         return promocao;
     }
 }
