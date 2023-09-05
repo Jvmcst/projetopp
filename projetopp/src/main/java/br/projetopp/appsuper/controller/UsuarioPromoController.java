@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author jv111
  */
+
 @RestController
 @RequestMapping("/api/v1/{idUsuario}/promocao")
 @CrossOrigin("*")
