@@ -31,18 +31,17 @@ public class UsuarioPromoService {
         List<Promocao> promocaoList = usuarioPromoDao.getByUsuario(idUsuario);
 
         for (Promocao promocao : promocaoList) {
-            //promocao = this.getProdutos(promocao);
+//            promocao = this.getPromocao(promocao);
         }
 
         return promocaoList;
     }
 
-    //public Promocao get(int idUsuario, int idPromocao) {;;
-        //Promocao promocao = usuarioPromoDao.get(idUsuario, idPromocao);
-       // promocao = this.getProdutos(promocao);
-//
-     //   return promocao;
-   // }
+    public Promocao get(int idUsuario, int idPromocao) {
+    Promocao promocao = usuarioPromoDao.get(idUsuario, idPromocao);
+//    promocao = this.getPromocao(promocao);
+    return promocao;
+    }
 
     public void delete(int idUsuario, int idPromocao) {
         usuarioPromoDao.delete(idUsuario, idPromocao);

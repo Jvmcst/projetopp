@@ -1,33 +1,49 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package br.projetopp.appsuper.dao;
 
 import br.projetopp.appsuper.model.Promocao;
 import br.projetopp.appsuper.model.UsuarioPromo;
 import java.util.List;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 /**
  *
  * @author jv111
  */
-public class UsuarioPromoDao {
+@RegisterBeanMapper(UsuarioPromo.class)
+@RegisterBeanMapper(Promocao.class)
+public interface UsuarioPromoDao {
+     @SqlUpdate("insert into usuariopromo (idUsuario, idPromocao) values (:idUsuario, :idPromocao)")
+        void insert(@BindBean UsuarioPromo usuariopromo);
 
-    public void insert(UsuarioPromo usuarioPromo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        @SqlQuery("select a.* " +
+                        " from promocao a, usuariopromo up " +
+                        " where up.idPromocao = a.idPromocao " +
+                        "   and up.idUsuario = :idUsuario " +
+                        "   and up.idPromocao = :idPromocao;")
+        Promocao get(@Bind("idUsuario") int idUsuario, @Bind("idPromocao") int idPromocao);
 
-    public List<Promocao> getByUsuario(int idUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        @SqlQuery("select a.* " +
+                        " from promocao a, usuariopromo up " +
+                        " where up.idPromocao = a.idPromocao " +
+                        "   and up.idUsuario = :idUsuario;")
+        List<Promocao> getByUsuario(@Bind("idUsuario") int idUsuario);
 
-    public void delete(int idUsuario, int idPromocao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        @SqlUpdate("delete " +
+                        " from usuariopromo " +
+                        " where idUsuario = :idUsuario " +
+                        "   and idPromocao = :idPromocao;")
+        int delete(@Bind("idUsuario") int idUsuario, @Bind("idPromocao") int idPromocao);
 
-    public void deleteByUsuario(int idUsuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
+        @SqlUpdate("delete " +
+                        " from usuariopromo " +
+                        " where idUsuario = :idUsuario;")
+        int deleteByUsuario(@Bind("idUsuario") int idUsuario);
 }

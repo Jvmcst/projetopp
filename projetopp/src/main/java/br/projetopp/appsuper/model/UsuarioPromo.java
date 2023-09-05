@@ -4,10 +4,22 @@
  */
 package br.projetopp.appsuper.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  *
  * @author jv111
  */
-public class UsuarioPromo {
-    
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class UsuarioPromo extends Promocao{
+    private int idUsuario;
+    private String descricao;
 }

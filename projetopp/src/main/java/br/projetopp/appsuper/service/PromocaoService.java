@@ -25,8 +25,8 @@ public class PromocaoService {
     }
 
     public Promocao inserir (Promocao promocao){
-        int idProduto = promocaoDao.insert(promocao);
-        promocao.setId(idProduto);
+        int idPromocao = promocaoDao.insert(promocao);
+        promocao.setId(idPromocao);
         return promocao;
     }
 
@@ -44,5 +44,11 @@ public class PromocaoService {
 
     public void excluir(int id){
         promocaoDao.delete(id);
+    }
+    
+    public Promocao getPromocaos(Promocao promocao) {
+//        List<Promocao> promocoes = PromocaoDao.getByPromocao(promocao.getId());
+
+        return promocao;
     }
 }
