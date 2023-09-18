@@ -18,7 +18,7 @@ public class UsuarioPromoService {
     private final UsuarioPromoDao usuarioPromoDao;
 
     public UsuarioPromoService(Jdbi jdbi) {
-       // super(jdbi);
+        // super(jdbi);
         this.usuarioPromoDao = jdbi.onDemand(UsuarioPromoDao.class);
     }
 
@@ -31,16 +31,16 @@ public class UsuarioPromoService {
         List<Promocao> promocaoList = usuarioPromoDao.getByUsuario(idUsuario);
 
         for (Promocao promocao : promocaoList) {
-//            promocao = this.getPromocao(promocao);
+            // promocao = this.getPromocao(promocao);
         }
 
         return promocaoList;
     }
 
     public Promocao get(int idUsuario, int idPromocao) {
-    Promocao promocao = usuarioPromoDao.get(idUsuario, idPromocao);
-//    promocao = this.getPromocao(promocao);
-    return promocao;
+        Promocao promocao = usuarioPromoDao.get(idUsuario, idPromocao);
+        // promocao = this.getPromocao(promocao);
+        return promocao;
     }
 
     public void delete(int idUsuario, int idPromocao) {

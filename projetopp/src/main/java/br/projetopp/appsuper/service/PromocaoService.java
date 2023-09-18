@@ -20,34 +20,34 @@ public class PromocaoService {
 
     private final PromocaoDao promocaoDao;
 
-    public PromocaoService(Jdbi jdbi){
+    public PromocaoService(Jdbi jdbi) {
         this.promocaoDao = jdbi.onDemand(PromocaoDao.class);
     }
 
-    public Promocao inserir (Promocao promocao){
+    public Promocao inserir(Promocao promocao) {
         int idPromocao = promocaoDao.insert(promocao);
-        promocao.setId(idPromocao);
+        promocao.setIdPromocao(idPromocao);
         return promocao;
     }
 
-    public List<Promocao> consultarTodos(){
+    public List<Promocao> consultarTodos() {
         return promocaoDao.getAll();
     }
 
-    public Promocao consultarPorId(int id){
+    public Promocao consultarPorId(int id) {
         return promocaoDao.get(id);
     }
 
-    public void alterar(Promocao promocao){
+    public void alterar(Promocao promocao) {
         promocaoDao.update(promocao);
     }
 
-    public void excluir(int id){
+    public void excluir(int id) {
         promocaoDao.delete(id);
     }
-    
+
     public Promocao getPromocaos(Promocao promocao) {
-//        List<Promocao> promocoes = PromocaoDao.getByPromocao(promocao.getId());
+        // List<Promocao> promocoes = PromocaoDao.getByPromocao(promocao.getId());
 
         return promocao;
     }

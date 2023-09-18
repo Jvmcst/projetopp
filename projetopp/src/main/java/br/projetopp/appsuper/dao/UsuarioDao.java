@@ -16,35 +16,36 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 @RegisterBeanMapper(Usuario.class)
 public interface UsuarioDao {
 
-    @GetGeneratedKeys
-    @SqlUpdate("insert into usuario (nomeUsuario, email, senha, telefone, confiabilidadeUsuario) values (:nomeUsuario, :email, :senha, :telefone, :confiabilidadeUsuario)")
-    int insert(@BindBean Usuario usuario);
+        @GetGeneratedKeys
+        @SqlUpdate("insert into usuario (nome, email, senha, telefone, foto) values (:nome, :email, :senha, :telefone, :foto)")
+        int insert(@BindBean Usuario usuario);
 
-    @SqlQuery("select * "
-            + " from usuario "
-            + " where idUsuario = :idUsuario;")
-    Usuario get(@Bind("idUsuario") int idUsuario);
+        @SqlQuery("select * "
+                        + " from usuario "
+                        + " where idUsuario = :idUsuario;")
+        Usuario get(@Bind("idUsuario") int idUsuario);
 
-    @SqlQuery("select * "
-            + " from usuario "
-            + " order by nomeUsuario;")
-    List<Usuario> getAll();
+        @SqlQuery("select * "
+                        + " from usuario "
+                        + " order by nome;")
+        List<Usuario> getAll();
 
-    @SqlQuery("select * "
-            + " from usuario "
-            + " where nomeUsuario like :nomeUsuario "
-            + " order by nomeUsuario;")
-    List<Usuario> getAllByName(@Bind("nomeUsuario") String nomeUsuario);
+        @SqlQuery("select * "
+                        + " from usuario "
+                        + " where nome like :nome "
+                        + " order by nome;")
+        List<Usuario> getAllByName(@Bind("nome") String nome);
 
-    @SqlUpdate("update usuario "
-            + " set nomeUsuario = :nomeUsuario, "
-            + "     email = :email " + "senha = :senha" + "telefone = :telefone" + "confiabilidadeUsuario = :confiabilidadeUsuario"
-            + " where idUsuario = :idUsuario;")
-    int update(@BindBean Usuario usuario);
+        @SqlUpdate("update usuario "
+                        + " set nome = :nome, "
+                        + "     email = :email ," + "senha = :senha," + "telefone = :telefone,"
+                        + "foto = :foto"
+                        + " where idUsuario = :idUsuario;")
+        int update(@BindBean Usuario usuario);
 
-    @SqlUpdate("delete "
-            + " from usuario "
-            + " where idUsuario = :idUsuario;")
-    int delete(@Bind("idUsuario") int idUsuario);
+        @SqlUpdate("delete "
+                        + " from usuario "
+                        + " where idUsuario = :idUsuario;")
+        int delete(@Bind("idUsuario") int idUsuario);
 
 }

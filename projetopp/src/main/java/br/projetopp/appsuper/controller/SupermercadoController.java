@@ -19,38 +19,38 @@ public class SupermercadoController {
 
     private final SupermercadoService supermercadoService;
 
-    public SupermercadoController(SupermercadoService supermercadoService){
+    public SupermercadoController(SupermercadoService supermercadoService) {
         this.supermercadoService = supermercadoService;
     }
 
-    @GetMapping({"/", ""})
-    public List<Supermercado> consultarTodos(){
+    @GetMapping({ "/", "" })
+    public List<Supermercado> consultarTodos() {
         List<Supermercado> supermercadoList = supermercadoService.consultarTodos();
         return supermercadoList;
     }
 
     @GetMapping("/{id}")
-    public Supermercado consultarSupermercado(@PathVariable("id") int id){
+    public Supermercado consultarSupermercado(@PathVariable("id") int id) {
         Supermercado ret = supermercadoService.consultarPorId(id);
         return ret;
     }
 
-    @PostMapping({"", "/"})
-    public Supermercado inserir(@RequestBody Supermercado supermercado){
+    @PostMapping({ "", "/" })
+    public Supermercado inserir(@RequestBody Supermercado supermercado) {
         Supermercado ret = supermercadoService.inserir(supermercado);
         return ret;
     }
 
-    @PutMapping({"", "/"})
-    public Supermercado alterar(@RequestBody Supermercado supermercado){
+    @PutMapping({ "", "/" })
+    public Supermercado alterar(@RequestBody Supermercado supermercado) {
         supermercadoService.alterar(supermercado);
         return supermercado;
     }
 
     @DeleteMapping("/{id}")
-    public Supermercado alterar(@PathVariable("id") int id){
+    public Supermercado alterar(@PathVariable("id") int id) {
         Supermercado supermercado = supermercadoService.consultarPorId(id);
-        if (supermercado == null){
+        if (supermercado == null) {
             throw new RuntimeException("Nao existe supermercado com este id para ser excluido....");
         }
         supermercadoService.excluir(id);

@@ -48,7 +48,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public Usuario alterar(@PathVariable("id") int id){
+    public Usuario deleteUsuario(@PathVariable("id") int id){
         Usuario usuario = usuarioService.consultarPorId(id);
         if (usuario == null){
             throw new RuntimeException("Nao existe aluno com este id para ser excluido....");

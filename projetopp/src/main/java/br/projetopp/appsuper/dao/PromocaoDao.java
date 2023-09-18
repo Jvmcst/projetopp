@@ -5,6 +5,8 @@
 package br.projetopp.appsuper.dao;
 
 import br.projetopp.appsuper.model.Promocao;
+import br.projetopp.appsuper.model.Usuario;
+
 import java.util.List;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
@@ -16,41 +18,50 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 @RegisterBeanMapper(Promocao.class)
 public interface PromocaoDao {
 
-    @GetGeneratedKeys
-    @SqlUpdate("insert into promocao (idUsuario, idCategoria, idSupermercado, nome, valor, dataPromocao, relevancia, statusPromocao, descricao, foto) values (:idUsuario, :idCategoria, :idSupermercado, :nome, :valor, :dataPromocao, :relevancia, :statusPromocao, :descricao, :foto)")
-    int insert(@BindBean Promocao promocao);
+        @GetGeneratedKeys
+        @SqlUpdate("insert into promocao (idUsuario, idCategoria, idSupermercado, nome, valor, dataPromocao, relevancia, statusPromocao, descricao, foto) values (:idUsuario, :idCategoria, :idSupermercado, :nome, :valor, :dataPromocao, :relevancia, :statusPromocao, :descricao, :foto)")
+        int insert(@BindBean Promocao promocao);
 
-    /**
-     *
-     * @param idPromocao
-     * 
-     * @return
-     */
-    @SqlQuery("select * "
-            + " from promocao "
-            + " where idPromocao = :idPromocao;")
-    Promocao get(@Bind("idPromocao") int idPromocao);
+        /**
+         *
+         * @param idPromocao
+         * 
+         * @return
+         */
+        @SqlQuery("select * "
+                        + " from promocao "
+                        + " where idPromocao = :idPromocao;")
+        Promocao get(@Bind("idPromocao") int idPromocao);
 
-    @SqlQuery("select * "
-            + " from promocao "
-            + " order by nome;")
-    List<Promocao> getAll();
+        @SqlQuery("select * "
+                        + " from promocao "
+                        + " order by nome;")
+        List<Promocao> getAll();
 
-    @SqlQuery("select * "
-            + " from promocao "
-            + " where nome like :nome "
-            + " order by nome;")
-    List<Promocao> getAllByName(@Bind("nome") String nome);
+        @SqlQuery("select * "
+                        + " from promocao "
+                        + " where idUsuario = :idUsuario "
+                        + " order by nome;")
+        List<Promocao> getAllByUsuario(@BindBean Usuario usuario);
 
-    @SqlUpdate("update promocao "
-            + " set nome = :nome, "
-            + "     idUsuario = :idUsuario " + "idCategoria = :idCategoria" + "idSupermercado = :idSupermercado" + "nome = :nome" + "valor = :valor" + "dataPromocao = :dataPromocao" + "relevancia = :relevancia" + "statusPromocao = :statusPromocao" + "descricao = :descricao" + "foto = :foto"
-            + " where idPromocao = :idPromocao;")
-    int update(@BindBean Promocao promocao);
+        @SqlQuery("select * "
+                        + " from promocao "
+                        + " where nome like :nome "
+                        + " order by nome;")
+        List<Promocao> getAllByName(@Bind("nome") String nome);
 
-    @SqlUpdate("delete "
-            + " from promocao "
-            + " where idPromocao = :idPromocao;")
-    int delete(@Bind("idPromocao") int idPromocao);
+        @SqlUpdate("update promocao "
+                        + " set nome = :nome, "
+                        + "     idUsuario = :idUsuario," + "idCategoria = :idCategoria,"
+                        + "idSupermercado = :idSupermercado," + "nome = :nome," + "valor = :valor,"
+                        + "dataPromocao = :dataPromocao," + "relevancia = :relevancia,"
+                        + "statusPromocao = :statusPromocao," + "descricao = :descricao," + "foto = :foto"
+                        + " where idPromocao = :idPromocao;")
+        int update(@BindBean Promocao promocao);
+
+        @SqlUpdate("delete "
+                        + " from promocao "
+                        + " where idPromocao = :idPromocao;")
+        int delete(@Bind("idPromocao") int idPromocao);
 
 }

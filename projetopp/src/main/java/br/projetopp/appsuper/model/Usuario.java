@@ -4,6 +4,8 @@
  */
 package br.projetopp.appsuper.model;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,7 @@ import lombok.ToString;
  * @author jv111
  */
 
-//anotation (anotações)
+// anotation (anotações)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -24,13 +26,10 @@ import lombok.ToString;
 
 public class Usuario {
     private int idUsuario;
-    private String nomeUsuario;
+    private String nome;
     private String email;
     private String senha;
     private String telefone;
-    private String confiabilidadeUsuario;
-
-    public void setId(int idAluno) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    private String foto;
+    private List<Promocao> promocaos;
 }

@@ -15,7 +15,7 @@ import lombok.ToString;
  * @author jv111
  */
 
-//anotation (anotações)
+// anotation (anotações)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -26,7 +26,7 @@ public class Promocao {
     private int idPromocao;
     private int idUsuario;
     private int idCategoria;
-    private int idSupermecado;
+    private int idSupermercado;
     private String nome;
     private double valor;
     private String dataPromocao;
@@ -34,8 +34,4 @@ public class Promocao {
     private String statusPromocao;
     private String descricao;
     private String foto;
-
-    public void setId(int idPromocao) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
