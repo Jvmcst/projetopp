@@ -4,6 +4,8 @@ import br.projetopp.appsuper.model.Usuario;
 import br.projetopp.appsuper.service.UsuarioService;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/usuario")
+@CrossOrigin("*")
 public class UsuarioController {
-
     private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService){
@@ -24,36 +26,68 @@ public class UsuarioController {
     }
 
     @GetMapping({"/", ""})
-    public List<Usuario> consultarTodos(){
-        List<Usuario> usuarioList = usuarioService.consultarTodos();
-        return usuarioList;
+    public List<Usuario> list(){
+        return usuarioService.getAll();
     }
 
-    @GetMapping("/{id}")
-    public Usuario consultarAluno(@PathVariable("id") int id){
-        Usuario ret = usuarioService.consultarPorId(id);
-        return ret;
+    @GetMapping("/{idUsuario}")
+    public Usuario findByIdUsuario(@PathVariable("idUsuario") int idUsuario){
+        return usuarioService.findById(idUsuario);
     }
 
     @PostMapping({"", "/"})
-    public Usuario inserir(@RequestBody Usuario usuario){
-        Usuario ret = usuarioService.inserir(usuario);
-        return ret;
+    public Usuario insertUsuario(@RequestBody Usuario usuario){
+        return usuarioService.insert(usuario);
     }
 
     @PutMapping({"", "/"})
-    public Usuario alterar(@RequestBody Usuario usuario){
-        usuarioService.alterar(usuario);
+    public Usuario updateUsuario(@RequestBody Usuario usuario){
+        usuarioService.update(usuario);
         return usuario;
     }
 
-    @DeleteMapping("/{id}")
-    public Usuario deleteUsuario(@PathVariable("id") int id){
-        Usuario usuario = usuarioService.consultarPorId(id);
+    @GetMapping("/email/{email}/exists")
+    public boolean checkEmail(@PathVariable("email") String email) {
+        Usuario usuario = usuarioService.getUserByEmail(email);
+
+        if (usuario != null && usuario.getEmail().equals(email)) {
+            return true;
+        } 
+        return false;
+    }
+
+    @GetMapping("/recover/{idUsuario}")
+    public void recoverSenha(@PathVariable("idUsuario") int idUsuario) {
+        usuarioService.recoverSenha(idUsuario);
+    }
+
+    @GetMapping("/dev/{email}/authenticate")
+    public boolean checkDev(@PathVariable("email") String email) {
+        Usuario usuario = usuarioService.getDevByEmail(email);
+
+        if (usuario != null && usuario.getEmail().equals(email)) {
+            return true;
+        }
+        return false;
+    }
+
+    @GetMapping("/{email}/{senha}/authenticate")
+    public Usuario authenticate(@PathVariable("email") String email, @PathVariable("senha") String senha) {
+        Usuario usuario = usuarioService.getUserByEmail(email);
+
+        if (usuario != null && usuario.getEmail().equals(email) && usuario.getSenha().equals(senha)) {
+            return usuario;
+        } else
+            return null;
+    }
+
+    @DeleteMapping("/{idUsuario}")
+    public Usuario deleteUsuario(@PathVariable("idUsuario") int idUsuario){
+        Usuario usuario = usuarioService.findById(idUsuario);
         if (usuario == null){
             throw new RuntimeException("Nao existe aluno com este id para ser excluido....");
         }
-        usuarioService.excluir(id);
+        usuarioService.delete(idUsuario);
         return usuario;
     }
 }

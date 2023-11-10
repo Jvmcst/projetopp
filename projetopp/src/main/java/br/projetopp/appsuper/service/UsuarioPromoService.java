@@ -30,9 +30,9 @@ public class UsuarioPromoService {
     public List<Promocao> getByUsuario(int idUsuario) {
         List<Promocao> promocaoList = usuarioPromoDao.getByUsuario(idUsuario);
 
-        for (Promocao promocao : promocaoList) {
-            // promocao = this.getPromocao(promocao);
-        }
+        // for (Promocao promocao : promocaoList) {
+        //     // promocao = this.getPromocao(promocao);
+        // }
 
         return promocaoList;
     }

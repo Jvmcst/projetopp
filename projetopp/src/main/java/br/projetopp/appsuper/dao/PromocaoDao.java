@@ -19,7 +19,7 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 public interface PromocaoDao {
 
         @GetGeneratedKeys
-        @SqlUpdate("insert into promocao (idUsuario, idCategoria, idSupermercado, nome, valor, dataPromocao, relevancia, statusPromocao, descricao, foto) values (:idUsuario, :idCategoria, :idSupermercado, :nome, :valor, :dataPromocao, :relevancia, :statusPromocao, :descricao, :foto)")
+        @SqlUpdate("insert into promocao (idUsuario, idCategoria, idSupermercado, nome, valor, dataInicio, dataTermino, relevancia, status, descricao, foto) values (:idUsuario, :idCategoria, :idSupermercado, :nome, :valor, :dataInicio, :dataTermino, :relevancia, :status, :descricao, :foto)")
         int insert(@BindBean Promocao promocao);
 
         /**
@@ -31,7 +31,7 @@ public interface PromocaoDao {
         @SqlQuery("select * "
                         + " from promocao "
                         + " where idPromocao = :idPromocao;")
-        Promocao get(@Bind("idPromocao") int idPromocao);
+        Promocao findById(@Bind("idPromocao") int idPromocao);
 
         @SqlQuery("select * "
                         + " from promocao "
@@ -44,6 +44,12 @@ public interface PromocaoDao {
                         + " order by nome;")
         List<Promocao> getAllByUsuario(@BindBean Usuario usuario);
 
+        @SqlQuery("select *"
+                        + " from promocao"
+                        + " where idUsuario = :idUsuario"
+                        + " order by nome;")
+        List<Promocao> getAllByUsuario(@Bind("idUsuario") int idUsuario);
+
         @SqlQuery("select * "
                         + " from promocao "
                         + " where nome like :nome "
@@ -52,10 +58,10 @@ public interface PromocaoDao {
 
         @SqlUpdate("update promocao "
                         + " set nome = :nome, "
-                        + "     idUsuario = :idUsuario," + "idCategoria = :idCategoria,"
+                        + "idUsuario = :idUsuario," + "idCategoria = :idCategoria,"
                         + "idSupermercado = :idSupermercado," + "nome = :nome," + "valor = :valor,"
-                        + "dataPromocao = :dataPromocao," + "relevancia = :relevancia,"
-                        + "statusPromocao = :statusPromocao," + "descricao = :descricao," + "foto = :foto"
+                        + "dataInicio = :dataInicio," + "dataTermino = :dataTermino," + "relevancia = :relevancia,"
+                        + "status = :status," + "descricao = :descricao," + "foto = :foto"
                         + " where idPromocao = :idPromocao;")
         int update(@BindBean Promocao promocao);
 
@@ -64,4 +70,26 @@ public interface PromocaoDao {
                         + " where idPromocao = :idPromocao;")
         int delete(@Bind("idPromocao") int idPromocao);
 
+        @SqlQuery("select *"
+                        + " from promocao"
+                        + " where (idCategoria = :idCategoria OR 0 = :idCategoria) "
+                        + " and (idSupermercado = :idSupermercado OR 0 = :idSupermercado) "
+                        + " and (nome like :searchField OR '%%' like :searchField);")
+        List<Promocao> find(@Bind("idCategoria") int idCategoria, @Bind("idSupermercado") int idSupermercado,
+                        @Bind("searchField") String searchField);
+
+        @SqlQuery("select *"
+                        + " from promocao"
+                        + " where dataInicio = :date;")
+        List<Promocao> findToday(String date);
+
+        @SqlQuery("select promocao.*"
+                        + " from promocao"
+                        + " INNER JOIN favorito ON promocao.idPromocao = favorito.idPromocao and favorito.idUsuario = :idUsuario;")
+        List<Promocao> getAllSavedByUsuario(@Bind("idUsuario") int idUsuario);
+
+        @SqlUpdate("update promocao "
+                        + " set foto = :foto, "
+                        + " where idPromocao = :idPromocao;")
+        int updateFoto(@Bind int idPromocao, @Bind String foto);
 }

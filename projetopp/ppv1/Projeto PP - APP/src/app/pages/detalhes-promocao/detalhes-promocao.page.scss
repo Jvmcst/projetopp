@@ -1,0 +1,47 @@
+.name{
+    color: #FFFFFF;
+    font-size: 20px;
+    height: 2rem;
+}
+
+.value{
+    color: #c51d1d;
+    font-size: 25px;
+    height: 2rem;
+}
+
+.others{
+    color: white;
+    font-size: 18px;
+    height: 1.8rem;
+}
+
+.description{
+    color: #545454;
+    font-size: 14px;
+    height: 4rem;
+}
+
+.center {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    width: 400px;
+}
+ 
+ion-content{
+    padding-left: 10px; 
+    padding-right: 10px;
+}
+
+ion-button{
+    padding-left: 10px; 
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+ion-img{
+    border-radius: 100%;
+}

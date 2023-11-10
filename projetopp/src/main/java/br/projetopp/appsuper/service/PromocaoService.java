@@ -17,38 +17,48 @@ import br.projetopp.appsuper.dao.PromocaoDao;
 
 @Service
 public class PromocaoService {
-
     private final PromocaoDao promocaoDao;
 
     public PromocaoService(Jdbi jdbi) {
         this.promocaoDao = jdbi.onDemand(PromocaoDao.class);
     }
 
-    public Promocao inserir(Promocao promocao) {
+    public Promocao insert(Promocao promocao) {
         int idPromocao = promocaoDao.insert(promocao);
         promocao.setIdPromocao(idPromocao);
         return promocao;
     }
 
-    public List<Promocao> consultarTodos() {
+    public List<Promocao> getAll() {
         return promocaoDao.getAll();
     }
 
-    public Promocao consultarPorId(int id) {
-        return promocaoDao.get(id);
+    public Promocao findById(int id) {
+        return promocaoDao.findById(id);
     }
 
-    public void alterar(Promocao promocao) {
+    public void update(Promocao promocao) {
         promocaoDao.update(promocao);
     }
 
-    public void excluir(int id) {
+    public void delete(int id) {
         promocaoDao.delete(id);
     }
 
-    public Promocao getPromocaos(Promocao promocao) {
-        // List<Promocao> promocoes = PromocaoDao.getByPromocao(promocao.getId());
+    public List<Promocao> getAllByUsuario(int idUsuario) {
+        return promocaoDao.getAllByUsuario(idUsuario);
+    }
 
-        return promocao;
+    public List<Promocao> find(int idCategoria, int idSupermercado, String searchField) {
+        return promocaoDao.find(idCategoria, idSupermercado, searchField);
+    }
+
+    public List<Promocao> findToday() {
+        String date = new java.sql.Date(new java.util.Date().getTime()).toString();
+        return promocaoDao.findToday(date);
+    }
+
+    public void fotoUpdate(int id, String foto){
+        promocaoDao.updateFoto(id, foto);
     }
 }

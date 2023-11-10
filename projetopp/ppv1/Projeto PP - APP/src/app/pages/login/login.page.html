@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-button color="transparent" slot="start" shape="round" id="present-alert"><ion-icon name="information-circle-outline"></ion-icon></ion-button>
+    <ion-alert trigger="present-alert" header="Obrigado por utilizar!!!" subHeader="Projeto Varejaço" message="Ana Elisa, João Vitor e Thúlio Marco"
+      [buttons]="alertButtons"></ion-alert>
+    <ion-title class="title1">Login</ion-title>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon name="moon"></ion-icon></ion-button>
+    <!-- <ion-icon slot="end" name="moon"></ion-icon>
+    <ion-toggle color="dark" slot="end" [enableOnOffLabels]="true" (click)="mudarTema()" [checked]="true"></ion-toggle> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="formGroup" (ngSubmit)="login()">
+
+    <ion-item>
+      <ion-img class="center" src="assets/icon/logo.png" alt="varejaco.png"></ion-img>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" [clearOnEdit]="true" placeholder="Insira o seu email" formControlName="email"
+        name="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input type="password" [clearOnEdit]="true" placeholder="Insira a sua senha"
+        formControlName="senha" name="senha"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" color="yellow-light" expand="block" [disabled]="!formGroup.valid">
+      <ion-icon slot="start" name="enter-outline"></ion-icon>
+      Entrar
+    </ion-button>
+  </form>
+
+  <ion-button color="salmon" fill="outline" (click)="redirectToCriarConta()" expand="block">
+    <ion-icon slot="start" name="person-add"></ion-icon>
+    Criar conta
+  </ion-button>
+
+  <ion-button color="intense-red" (click)="redirectToHome()" expand="block">
+    <ion-icon slot="start" name="eye-outline"></ion-icon>
+    Continuar sem login
+  </ion-button>
+</ion-content>

@@ -24,25 +24,25 @@ public class SupermercadoService {
         this.supermercadoDao = jdbi.onDemand(SupermercadoDao.class);
     }
 
-    public Supermercado inserir(Supermercado supermercado) {
+    public Supermercado insert(Supermercado supermercado) {
         int idSupermercado = supermercadoDao.insert(supermercado);
-        supermercado.setId(idSupermercado);
+        supermercado.setIdSupermercado(idSupermercado);
         return supermercado;
     }
 
-    public List<Supermercado> consultarTodos() {
+    public List<Supermercado> getAll() {
         return supermercadoDao.getAll();
     }
 
-    public Supermercado consultarPorId(int id) {
-        return supermercadoDao.get(id);
+    public Supermercado findById(int id) {
+        return supermercadoDao.findById(id);
     }
 
-    public void alterar(Supermercado supermercado) {
+    public void update(Supermercado supermercado) {
         supermercadoDao.update(supermercado);
     }
 
-    public void excluir(int id) {
+    public void delete(int id) {
         supermercadoDao.delete(id);
     }
 }

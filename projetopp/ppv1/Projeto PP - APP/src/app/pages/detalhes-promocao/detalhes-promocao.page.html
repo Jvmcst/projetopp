@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="title1">Promoção</ion-title>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon
+        name="moon"></ion-icon></ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form>
+    <!-- <ion-img class="center" src="{{promocao.foto}}" alt="promocao.png"></ion-img> -->
+
+    <ion-item>
+      <ion-img class="center" src="assets/icon/produto.png" alt="produto.png"></ion-img>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <p>
+          <b>
+            {{promocao.nome}}
+          </b>
+        </p>
+        <p class="value">
+          <b>
+            R${{promocao.valor}}
+          </b>
+        </p>
+        <p class="description">
+          <b>
+            {{promocao.descricao}}
+          </b>
+        </p>
+        <p>
+          <ion-icon name="cart" color="intense-red"></ion-icon>
+          {{supermercado.nome}}
+        </p>
+        <p>
+          <ion-icon name="location" color="intense-red"></ion-icon>
+          {{supermercado.descricao}}
+        </p>
+        <p>
+          <ion-icon name="calendar" color="intense-red"></ion-icon>
+          {{formatDate(promocao.dataInicio)}} ATÉ {{formatDate(promocao.dataTermino)}}
+        </p>
+        <p>
+          <ion-icon name="grid" color="intense-red"></ion-icon>
+          {{categoria.nome}}
+        </p>
+        <p>
+          <ion-icon name="trending-up" color="intense-red"></ion-icon>
+          {{promocao.relevancia}}%
+        </p>
+        <p>
+          <ion-icon name="stats-chart" color="intense-red"></ion-icon>
+          {{numberTotal}} Avaliações
+        </p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-button color="intense-red" (click)="save()" slot="end" shape="round" [disabled]="!isSession">
+        <ion-icon name="{{iconFavorite}}" color="white"></ion-icon>
+        {{nameButton}}
+      </ion-button>
+
+      <ion-button color="light" (click)="evaluate('like')" slot="start" shape="round" [disabled]="!isSession">
+        <ion-icon [color]="darkTheme ? 'white' : 'intense-red'" name="{{iconLike}}"></ion-icon>
+      </ion-button>
+
+      <ion-button color="light" (click)="evaluate('deslike')" slot="start" shape="round" [disabled]="!isSession">
+        <ion-icon [color]="darkTheme ? 'white' : 'intense-red'" name="{{iconDeslike}}"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </form>
+</ion-content>

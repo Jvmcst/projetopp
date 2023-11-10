@@ -1,0 +1,56 @@
+#GET //chama os registrados
+GET http://localhost:8080/api/v1/promocao/search/0/0/-/
+Content-Type: application/json
+###
+
+#GET //buscar
+GET  http://localhost:8080/api/v1/promocao/usuario/3
+Content-Type: application/json
+###
+
+
+#POST // inserir no banco
+POST http://localhost:8080/api/v1/promocao
+Content-Type: application/json
+
+{
+        "idUsuario": 3,
+        "idCategoria": 1,
+        "idSupermercado": 3,
+        "nome": "Macarrão",
+        "valor": 199.90,
+        "data": "23/09/2023",
+        "relevancia": 0,
+        "status": "Ativa",
+        "descricao": "Próximo ao vencimento",
+        "foto": "Sem foto"
+}
+
+###
+
+#PUT // att
+PUT http://localhost:8080/api/v1/promocao
+Content-Type: application/json
+
+{
+    "idPromocao": 3,
+        "idUsuario": 4,
+        "idCategoria": 1,
+        "idSupermercado": 1,
+        "nome": "Coca-Cola",
+        "valor": 9.8,
+        "data": "11/10/2023",
+        "relevancia": "boa",
+        "status": "'Disponível'",
+        "descricao": "Geladinha dms",
+        "foto": "dsdsd"
+}
+###
+
+#DELETE //trocar o id no final
+DELETE http://localhost:8080/api/v1/promocao/4
+Content-Type: application/json
+
+#GET
+GET http://localhost:8080/api/v1/promocao/usuario/3
+Content-Type: application/json

@@ -1,0 +1,38 @@
+.center {
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    width: 400px;
+}
+
+ion-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+ion-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+}
+
+ion-img {
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+
+
+.profile-photo {
+    padding: 4px;
+    display: block;
+    border-radius: 50%;
+    /* Isso tornará a imagem redonda */
+    overflow: hidden;
+    /* Isso garantirá que a imagem seja cortada em um círculo */
+    object-fit: cover;
+    /* Isso fará com que a imagem preencha o círculo sem bordas */
+    text-align: center;
+  }

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categoria"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="title1">Criar Categoria</ion-title>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon name="moon"></ion-icon></ion-button>
+    <!-- <ion-icon slot="end" name="moon"></ion-icon>
+    <ion-toggle color="dark" slot="end" [enableOnOffLabels]="true" (click)="mudarTema()" [checked]="true"></ion-toggle> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="formGroup" (ngSubmit)="save()">
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input clearInput type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" color="intense-red" expand="block" [disabled]="!formGroup.valid">
+      Salvar
+    </ion-button>
+  </form>
+</ion-content>

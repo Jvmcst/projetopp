@@ -1,0 +1,128 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import '@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+:root {
+	--ion-color-intense-red: #c51d1d;
+	--ion-color-intense-red-rgb: 197,29,29;
+	--ion-color-intense-red-contrast: #ffffff;
+	--ion-color-intense-red-contrast-rgb: 255,255,255;
+	--ion-color-intense-red-shade: #ad1a1a;
+	--ion-color-intense-red-tint: #cb3434;
+}
+
+.ion-color-intense-red {
+	--ion-color-base: var(--ion-color-intense-red);
+	--ion-color-base-rgb: var(--ion-color-intense-red-rgb);
+	--ion-color-contrast: var(--ion-color-intense-red-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-intense-red-contrast-rgb);
+	--ion-color-shade: var(--ion-color-intense-red-shade);
+	--ion-color-tint: var(--ion-color-intense-red-tint);
+}
+
+:root {
+	--ion-color-yellow-light: #ffd030;
+	--ion-color-yellow-light-rgb: 255,208,48;
+	--ion-color-yellow-light-contrast: #000000;
+	--ion-color-yellow-light-contrast-rgb: 0,0,0;
+	--ion-color-yellow-light-shade: #e0b72a;
+	--ion-color-yellow-light-tint: #ffd545;
+}
+
+.ion-color-yellow-light {
+	--ion-color-base: var(--ion-color-yellow-light);
+	--ion-color-base-rgb: var(--ion-color-yellow-light-rgb);
+	--ion-color-contrast: var(--ion-color-yellow-light-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-yellow-light-contrast-rgb);
+	--ion-color-shade: var(--ion-color-yellow-light-shade);
+	--ion-color-tint: var(--ion-color-yellow-light-tint);
+}
+
+:root {
+	--ion-color-salmon: #ff6c47;
+	--ion-color-salmon-rgb: 255,108,71;
+	--ion-color-salmon-contrast: #000000;
+	--ion-color-salmon-contrast-rgb: 0,0,0;
+	--ion-color-salmon-shade: #e05f3e;
+	--ion-color-salmon-tint: #ff7b59;
+}
+
+.ion-color-salmon {
+	--ion-color-base: var(--ion-color-salmon);
+	--ion-color-base-rgb: var(--ion-color-salmon-rgb);
+	--ion-color-contrast: var(--ion-color-salmon-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-salmon-contrast-rgb);
+	--ion-color-shade: var(--ion-color-salmon-shade);
+	--ion-color-tint: var(--ion-color-salmon-tint);
+}
+
+.ios button.alert-button-cancel {
+	border-right: 0;
+	border-bottom-left-radius: 13px;
+	border-top-left-radius: 13px;
+	color: #ffd030;
+}
+
+:root {
+	--ion-color-white: #FFFFFF;
+	--ion-color-white-rgb: 255,255,255;
+	--ion-color-white-contrast: #000000;
+	--ion-color-white-contrast-rgb: 0,0,0;
+	--ion-color-white-shade: #e0e0e0;
+	--ion-color-white-tint: #ffffff;
+}
+
+.ion-color-white {
+	--ion-color-base: var(--ion-color-white);
+	--ion-color-base-rgb: var(--ion-color-white-rgb);
+	--ion-color-contrast: var(--ion-color-white-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-white-contrast-rgb);
+	--ion-color-shade: var(--ion-color-white-shade);
+	--ion-color-tint: var(--ion-color-white-tint);
+}
+
+.alert-button.sc-ion-alert-md{
+	color: #c51d1d;
+}
+
+.alert-button.sc-ion-alert-md.amarelo{
+	color: #573dd6;
+}
+
+.alert-button.sc-ion-alert-md.laranja{
+	color: #00cb2f;
+}
+
+.title{
+    color: white;
+    height: 4rem;
+    text-align: center;
+}
+
+.title1{
+    height: 4rem;
+    text-align: center;
+}

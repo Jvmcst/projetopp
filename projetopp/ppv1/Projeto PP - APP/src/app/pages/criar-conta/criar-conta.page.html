@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="title1">Criar Conta</ion-title>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon name="moon"></ion-icon></ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="formGroup" (ngSubmit)="save()">
+  
+    <div class="content-container">
+      <ion-item class="photo-upload">
+
+        <ion-button fill="clear" (click)="takePhoto()" class="photo-button">
+          <ion-img [src]="selectedImage ? selectedImage : 'assets/icon/usuario.png'" class="profile-photo"></ion-img>
+        </ion-button>
+  
+        <input type="file" (change)="previewImage($event)" accept="image/*" hidden>
+      </ion-item>
+
+      <ion-item  class="change-photo-button">
+        <ion-button expand="block" fill="clear" class="change-photo-button" color="salmon" (click)="takePhoto()">
+          Selecionar foto de Perfil
+        </ion-button>
+      </ion-item>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input clearInput type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input clearInput type="text" formControlName="email" name="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Senha</ion-label>
+      <ion-input clearInput type="password" formControlName="senha" name="senha"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Repita a senha</ion-label>
+      <ion-input clearInput type="password" formControlName="senhaRepetida" name="senhaRepetida" appPasswordMatch="senha"></ion-input>
+      <ion-text color="danger" *ngIf="formGroup?.get('senhaRepetida')?.hasError('passwordMatch')">
+        As senhas não coincidem.
+      </ion-text>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="stacked">Telefone</ion-label>
+      <input type="text" formControlName="telefone" name="telefone" class="form-control border-0 shadow-none" mask="(00) 00000-0000">      
+    </ion-item>
+
+    <!-- <ion-button fill="outline" (click)="takePhoto()" color="salmon" expand="block">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Escolher foto
+    </ion-button> -->
+
+    <ion-button type="submit" color="intense-red" expand="block" [disabled]="!formGroup.valid">
+      Realizar Cadastro
+    </ion-button>
+  </form>
+</ion-content>

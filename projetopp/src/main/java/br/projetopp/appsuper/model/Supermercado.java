@@ -26,9 +26,4 @@ public class Supermercado {
     private int idSupermercado;
     private String nome;
     private String descricao;
-    private String simbolo;
-
-    public void setId(int idSupermercado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

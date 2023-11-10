@@ -22,20 +22,22 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioDao usuarioDao;
+    private final EmailService emailService;
     private final PromocaoDao promocaoDao;
 
-    public UsuarioService(Jdbi jdbi) {
+    public UsuarioService(Jdbi jdbi, EmailService emailService) {
         this.usuarioDao = jdbi.onDemand(UsuarioDao.class);
         this.promocaoDao = jdbi.onDemand(PromocaoDao.class);
+        this.emailService = emailService;
     }
 
-    public Usuario inserir(Usuario usuario) {
+    public Usuario insert(Usuario usuario) {
         int idUsuario = usuarioDao.insert(usuario);
         usuario.setIdUsuario(idUsuario);
         return usuario;
     }
 
-    public List<Usuario> consultarTodos() {
+    public List<Usuario> getAll() {
         List<Usuario> usuarios = usuarioDao.getAll();
 
         for (Usuario usuario : usuarios) {
@@ -45,18 +47,34 @@ public class UsuarioService {
         return usuarios;
     }
 
-    public Usuario consultarPorId(int id) {
-        Usuario usuario = usuarioDao.get(id);
+    public Usuario findById(int idUsuario) {
+        Usuario usuario = usuarioDao.findById(idUsuario);
         usuario = getPromocaos(usuario);
         return usuario;
     }
 
-    public void alterar(Usuario usuario) {
+    public void update(Usuario usuario) {
         usuarioDao.update(usuario);
     }
 
-    public void excluir(int id) {
-        usuarioDao.delete(id);
+    public void delete(int idUsuario) {
+        usuarioDao.delete(idUsuario);
+    }
+
+    public void recoverSenha(int idUsuario){
+        Usuario usuario = usuarioDao.findById(idUsuario);
+
+        String text = "Olá " + usuario.getNome() + ". Sua senha é " + usuario.getSenha();
+
+        emailService.sendSimpleMessage(usuario.getEmail(), "Recuperação de Senha", text);
+    }
+
+    public Usuario getUserByEmail(String email) {
+        return usuarioDao.getUserByEmail(email);
+    }
+
+    public Usuario getDevByEmail(String email) {
+        return usuarioDao.getDevByEmail(email);
     }
 
     public Usuario getPromocaos(Usuario usuario) {
@@ -65,5 +83,4 @@ public class UsuarioService {
 
         return usuario;
     }
-
 }

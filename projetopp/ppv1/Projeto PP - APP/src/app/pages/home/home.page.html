@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-button color="transparent" slot="start" shape="round" id="present-alert"><ion-icon name="information-circle-outline"></ion-icon></ion-button>
+    <ion-alert trigger="present-alert" header="Obrigado por utilizar!!!" subHeader="Projeto Varejaço" message="Ana Elisa, João Vitor e Thúlio Marco"
+      [buttons]="alertButtons"></ion-alert>
+    
+      <ion-title class="title1">Descubra</ion-title>
+    
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon name="moon"></ion-icon></ion-button>
+    <!-- <ion-icon slot="end" name="moon"></ion-icon>
+    <ion-toggle color="dark" slot="end" [enableOnOffLabels]="true" (click)="mudarTema()" [checked]="true"></ion-toggle> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <h2>Promos do dia</h2>
+  </ion-item>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let promocao of promocaos; index as i;">
+      <ion-item [routerLink]="['/detalhes-promocao/', promocao.idPromocao]" detail>
+        <ion-thumbnail slot="start">
+          <img src="https://i1.sndcdn.com/avatars-253MmMf9QZzxVBJi-rvlyeg-t500x500.jpg" />
+        </ion-thumbnail>
+        <ion-label>
+          <p>
+            <b>
+              {{promocao.nome}}
+            </b>
+          </p>
+          <p class="market">
+            {{findName(promocao.idSupermercado)}}
+          </p>
+          <h2 class="value">
+            R${{promocao.valor}}
+          </h2>
+          <p>
+            {{promocao.relevancia}}%
+          </p>
+        </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <div id="buttons">
+    <div id="button1">
+      <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button routerLink="/pesquisar/" color="intense-red">
+          <ion-icon name="search-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+    <div id="button2">
+      <ion-button size="large" shape="round" slot="fixed" (click)="redirectToCriarPromocao()" color="intense-red"
+        expand="block">
+        NOVA PROMOÇÃO
+      </ion-button>
+    </div>
+    <div id="button3">
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="redirectToPerfil()" color="intense-red">
+          <ion-icon name="person"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+  </div>
+</ion-footer>

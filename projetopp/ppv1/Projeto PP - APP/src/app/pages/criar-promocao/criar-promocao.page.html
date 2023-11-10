@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="title1">Promoção</ion-title>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()">
+      <ion-icon name="moon"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="formGroup" (ngSubmit)="save()">
+    <ion-item>
+      <ion-img class="center" src="assets/icon/produto.png" alt="produto.png"></ion-img>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nome</ion-label>
+      <ion-input clearInput type="text" formControlName="nome" name="nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descrição</ion-label>
+      <ion-input clearInput type="text" formControlName="descricao" name="descricao"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Valor</ion-label>
+      <input clearInput type='text' class="form-control border-0 shadow-none" mask="separator.2" thousandSeparator="." decimalMarker="," formControlName="valor" name="valor"/>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Categoria</ion-label>
+      <ion-select interface="popover" formControlName="idCategoria" name="idCategoria" label-placement="fixed"
+        placeholder="Selecione uma categoria">
+        <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{categoria.nome}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Supermercado</ion-label>
+      <ion-select (ionChange)="putDescricao()" interface="popover" formControlName="idSupermercado" name="idSupermercado" label-placement="fixed"
+        placeholder="Selecione um supermercado">
+        <ion-select-option *ngFor="let supermercado of supermercados"
+          [value]="supermercado.idSupermercado">{{supermercado.nome}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Descrição do Supermercado</ion-label>
+      <ion-input clearInput type="text" readonly formControlName="descricaoSupermercado" name="descricaoSupermercado"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Início</ion-label>
+      <br>
+      <ion-datetime min="{{dateToday}}" formControlName="dataInicio" name="dataInicio"
+        presentation="date"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Término</ion-label>
+      <br>
+      <ion-datetime min="{{dateToday}}" formControlName="dataTermino" name="dataTermino"
+        presentation="date"></ion-datetime>
+    </ion-item>
+
+    <ng-template [ngIf]="isEnabled">
+      <ion-item>
+        <ion-label position="floating">Relevância</ion-label>
+        <ion-input clearInput readonly type="text" formControlName="relevancia" name="relevancia"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-select interface="popover" formControlName="status" name="status" label="Status" label-placement="fixed">
+          <ion-select-option value="Ativa">Ativa</ion-select-option>
+          <ion-select-option value="Expirada">Expirada</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ng-template>
+
+    <ion-button fill="outline" (click)="takePhoto()" color="salmon" expand="block">
+      <ion-icon slot="start" name="camera"></ion-icon>
+      Escolher foto
+    </ion-button>
+
+    <ion-button type="submit" color="intense-red" expand="block" [disabled]="!formGroup.valid">
+      Realizar Cadastro
+    </ion-button>
+  </form>
+</ion-content>

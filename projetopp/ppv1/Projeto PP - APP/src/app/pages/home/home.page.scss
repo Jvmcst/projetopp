@@ -1,0 +1,44 @@
+.name{
+    color: #FFFFFF;
+    font-size: 18px;
+    height: 1.5rem;
+}
+
+.market{
+    color: #8e8d8d;
+    font-size: 10px;
+    height: 1.2rem;
+}
+
+.value{
+    color: #c51d1d;
+    font-size: 24px;
+    height: 2rem;
+}
+
+.relevance{
+    color: white;
+    font-size: 12px;
+    height: 1rem;
+}
+
+#buttons {
+    display: grid;;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: "button1 button2 button3";
+}
+
+#button1 {
+    grid-area: button1;
+}
+
+#button2 {
+    grid-area: button2;
+}
+
+#button3 {
+    grid-area: button3;
+}
+
+
+

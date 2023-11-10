@@ -16,40 +16,40 @@ import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 @RegisterBeanMapper(Supermercado.class)
 public interface SupermercadoDao {
 
-    @GetGeneratedKeys
-    @SqlUpdate("insert into supermercado (nome, descricao, simbolo) values (:nome, :descricao, :simbolo)")
-    int insert(@BindBean Supermercado supermercado);
+        @GetGeneratedKeys
+        @SqlUpdate("insert into supermercado (nome, descricao) values (:nome, :descricao)")
+        int insert(@BindBean Supermercado supermercado);
 
-    /**
-     *
-     * @param idSupermercado
-     * @return
-     */
-    @SqlQuery("select * "
-            + " from supermercado "
-            + " where idSupermercado = :idSupermercado;")
-    Supermercado get(@Bind("idSupermercado") int idSupermercado);
+        /**
+         *
+         * @param idSupermercado
+         * @return
+         */
+        @SqlQuery("select * "
+                        + " from supermercado "
+                        + " where idSupermercado = :idSupermercado;")
+        Supermercado findById(@Bind("idSupermercado") int idSupermercado);
 
-    @SqlQuery("select * "
-            + " from supermercado "
-            + " order by nome;")
-    List<Supermercado> getAll();
+        @SqlQuery("select *"
+                        + " from supermercado"
+                        + " order by nome;")
+        List<Supermercado> getAll();
 
-    @SqlQuery("select * "
-            + " from supermercado "
-            + " where nome like :nome "
-            + " order by nome;")
-    List<Supermercado> getAllByName(@Bind("nome") String nome);
+        @SqlQuery("select * "
+                        + " from supermercado "
+                        + " where nome like :nome "
+                        + " order by nome;")
+        List<Supermercado> getAllByName(@Bind("nome") String nome);
 
-    @SqlUpdate("update supermercado "
-            + " set nome = :nome, "
-            + "     descricao = :descricao " + "simbolo = :simbolo" 
-            + " where idSupermercado = :idSupermercado;")
-    int update(@BindBean Supermercado supermercado);
+        @SqlUpdate("update supermercado "
+                        + " set nome = :nome, "
+                        + "     descricao = :descricao"
+                        + " where idSupermercado = :idSupermercado;")
+        int update(@BindBean Supermercado supermercado);
 
-    @SqlUpdate("delete "
-            + " from supermercado "
-            + " where idSupermercado = :idSupermercado;")
-    int delete(@Bind("idSupermercado") int idSupermercado);
+        @SqlUpdate("delete "
+                        + " from supermercado "
+                        + " where idSupermercado = :idSupermercado;")
+        int delete(@Bind("idSupermercado") int idSupermercado);
 
 }

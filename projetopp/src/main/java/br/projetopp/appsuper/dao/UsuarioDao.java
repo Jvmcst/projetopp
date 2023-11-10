@@ -23,7 +23,7 @@ public interface UsuarioDao {
         @SqlQuery("select * "
                         + " from usuario "
                         + " where idUsuario = :idUsuario;")
-        Usuario get(@Bind("idUsuario") int idUsuario);
+        Usuario findById(@Bind("idUsuario") int idUsuario);
 
         @SqlQuery("select * "
                         + " from usuario "
@@ -36,6 +36,11 @@ public interface UsuarioDao {
                         + " order by nome;")
         List<Usuario> getAllByName(@Bind("nome") String nome);
 
+        @SqlQuery("select * "
+                        + "from usuario "
+                        + " where email like :email;")
+        Usuario getUserByEmail(@Bind("email") String email);
+
         @SqlUpdate("update usuario "
                         + " set nome = :nome, "
                         + "     email = :email ," + "senha = :senha," + "telefone = :telefone,"
@@ -47,5 +52,11 @@ public interface UsuarioDao {
                         + " from usuario "
                         + " where idUsuario = :idUsuario;")
         int delete(@Bind("idUsuario") int idUsuario);
+
+        @SqlQuery("select * "
+        + "from usuario "
+        + "where email = :email "
+        + "and (email = 'anaelisakb@gmail.com' or email = 'jv11102014@gmail.com' or email = 'thuliomarco3@gmail.com');")
+        Usuario getDevByEmail(String email);
 
 }

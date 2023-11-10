@@ -1,0 +1,41 @@
+#GET //chama os registrados
+GET http://localhost:8080/api/v1/usuario/
+Content-Type: application/json
+###
+
+#GET //chama os registrados
+GET http://localhost:8080/api/v1/usuario/recover/3
+Content-Type: application/json
+###
+
+#POST // inserir no banco
+POST http://localhost:8080/api/v1/usuario
+Content-Type: application/json
+
+{
+    "nome":"thulio",
+    "email":"thulioteste4@gmail.com",
+    "telefone":"995122054",
+    "senha":"algumacoisaseila",
+    "foto":"semfoto"
+}
+
+#PUT // att
+PUT http://localhost:8080/api/v1/usuario
+Content-Type: application/json
+
+{
+    "idUsuario": 7,
+    "nome": "Douglas",
+    "email": "klkad@dasaf",
+    "senha": "1f23456",
+    "telefone": "323345678",
+    "foto": "adaad"
+}
+###
+
+#DELETE //trocar o id no final
+DELETE http://localhost:8080/api/v1/usuario/6
+Content-Type: application/json
+
+http://localhost:8080/api/v1/usuario/email/thuliomarco3@gmail.com/exists
