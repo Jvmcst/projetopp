@@ -29,6 +29,10 @@ public class PromocaoService {
         return promocao;
     }
 
+    public void updateRelevancia(int idPromocao) {
+        promocaoDao.updateRelevancia(idPromocao);
+    }
+
     public List<Promocao> getAll() {
         return promocaoDao.getAll();
     }

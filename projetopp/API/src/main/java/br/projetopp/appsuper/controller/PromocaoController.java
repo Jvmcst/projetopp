@@ -40,6 +40,12 @@ public class PromocaoController {
         return promocaoList;
     }
 
+    @GetMapping("/relevancia/{idPromocao}")
+    public Promocao updateRelevancia(@PathVariable("idPromocao") int idPromocao) {
+        promocaoService.updateRelevancia(idPromocao);
+        return promocaoService.findById(idPromocao);
+    }
+
     @GetMapping("/{id}")
     public Promocao findById(@PathVariable("id") int id) {
         return promocaoService.findById(id);

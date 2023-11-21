@@ -32,11 +32,11 @@ public interface AvaliacaoDao {
                         + " where idPromocao = :idPromocao;")
         int getNumberTotalAvaliacoes(@Bind("idPromocao") int idPromocao);
 
-        // @SqlUpdate("update promocao"
-        //                 + " set relevancia = (select (SUM(nota) / count(idPromocao))"
-        //                 + " from avaliacao where idPromocao = :idPromocao),"
-        //                 + " where idPromocao = :idPromocao;")
-        // int updateRelevancia(@Bind("idPromocao") int idPromocao);
+        @SqlQuery("select count(1)"
+                        + " from avaliacao"
+                        + " where idPromocao = :idPromocao"
+                        + " and nota = 1;")
+        int getAllNumberLikes(@Bind("idPromocao") int idPromocao);
 
         @SqlUpdate("update avaliacao "
                         + " set idUsuario = :idUsuario, "

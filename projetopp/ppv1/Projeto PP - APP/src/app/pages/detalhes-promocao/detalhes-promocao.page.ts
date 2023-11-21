@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { Avaliacao } from 'src/app/model/avaliacao';
 import { Categoria } from 'src/app/model/categoria';
 import { Favorito } from 'src/app/model/favorito';
@@ -35,7 +35,7 @@ export class DetalhesPromocaoPage implements OnInit {
   avaliacao: Avaliacao;
   numberTotal: number;
 
-  constructor(private avaliacaoService: AvaliacaoService, private toastController: ToastController, private favoritoService: FavoritoService, private usuarioService: UsuarioService, private renderer: Renderer2, private activatedRoute: ActivatedRoute, private categoriaService: CategoriaService, private supermercadoService: SupermercadoService, private promocaoService: PromocaoService) {
+  constructor(private loadingController: LoadingController, private avaliacaoService: AvaliacaoService, private toastController: ToastController, private favoritoService: FavoritoService, private usuarioService: UsuarioService, private renderer: Renderer2, private activatedRoute: ActivatedRoute, private categoriaService: CategoriaService, private supermercadoService: SupermercadoService, private promocaoService: PromocaoService) {
     this.isSession = false;
     this.iconLike = "thumbs-up-outline";
     this.iconDeslike = "thumbs-down-outline";
@@ -91,7 +91,7 @@ export class DetalhesPromocaoPage implements OnInit {
 
           this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
             this.numberTotal = <number>(json);
-          })
+          });
         }
 
         this.supermercadoService.findByIdSupermercado(this.promocao.idSupermercado).then((json) => {
@@ -115,7 +115,7 @@ export class DetalhesPromocaoPage implements OnInit {
     }
   }
 
-  formatDate(date: string){
+  formatDate(date: string) {
     let result = date.split("-");
     return result[2] + "/" + result[1] + "/" + result[0];
   }
@@ -124,6 +124,8 @@ export class DetalhesPromocaoPage implements OnInit {
   }
 
   async loadList() {
+    this.showLoader();
+
     let idPromocao = this.activatedRoute.snapshot.params['id'];
 
     if (idPromocao != null) {
@@ -131,15 +133,38 @@ export class DetalhesPromocaoPage implements OnInit {
         this.promocao = <Promocao>(json);
       });
 
-      this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
+      await this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
         this.numberTotal = <number>(json);
-      })
+      });
+
+      await this.promocaoService.updateRelevancia(idPromocao).then((json) => {
+        this.promocao = <Promocao>(json);
+      });
     }
+
+    this.closeLoader();
+  }
+
+  showLoader() {
+    this.loadingController.create({
+      message: 'Carregando...'
+    }).then((res) => {
+      res.present();
+    })
+  }
+
+  closeLoader() {
+    setTimeout(() => {
+      this.loadingController.dismiss().then(() => {
+      }).catch((erro) => {
+        console.log('Erro: ', erro)
+      });
+    }, 500);
   }
 
   evaluate(value: string) {
-    // this.avaliacao.idPromocao = this.promocao.idPromocao;
-    // this.avaliacao.idUsuario = this.usuarioService.recoverIdUsuario();
+    this.avaliacao.idPromocao = this.promocao.idPromocao;
+    this.avaliacao.idUsuario = this.usuarioService.recoverIdUsuario();
 
     if ((value === 'like' && this.isLike) || (value === 'deslike' && this.isDeslike)) {
       this.iconLike = "thumbs-up-outline";
@@ -147,47 +172,45 @@ export class DetalhesPromocaoPage implements OnInit {
       this.isLike = false;
       this.isDeslike = false;
 
-      // this.avaliacaoService.remove(this.usuarioService.recoverIdUsuario(), this.promocao.idPromocao).catch(() => {
-      //   this.showMessage('Erro ao remover avaliação.');
-      // });
+      this.avaliacaoService.remove(this.usuarioService.recoverIdUsuario(), this.promocao.idPromocao).catch(() => {
+        this.showMessage('Erro ao remover avaliação.');
+      });
 
-      // this.loadList();
+      this.loadList();
       return;
     }
 
-
-
     if (this.isLike || (!this.isDeslike && value === 'deslike')) {
-      // this.avaliacao.nota = -1;
+      this.avaliacao.nota = -1;
 
-      // this.avaliacaoService.saveAvaliacao(this.avaliacao).then((json) => {
-      //   if (!<Avaliacao>(json)) {
-      //     this.showMessage('Erro ao avaliar!')
-      //   } else {
+      this.avaliacaoService.saveAvaliacao(this.avaliacao).then((json) => {
+        if (!<Avaliacao>(json)) {
+          this.showMessage('Erro ao avaliar!')
+        } else {
 
           this.iconLike = "thumbs-up-outline";
           this.iconDeslike = "thumbs-down";
           this.isLike = false;
           this.isDeslike = true;
-      //   }
-      // })
+        }
+      })
 
-      // this.loadList();
+      this.loadList();
 
       return;
     } else {
-      // this.avaliacao.nota = 1;
+      this.avaliacao.nota = 1;
 
-      // this.avaliacaoService.saveAvaliacao(this.avaliacao).then((json) => {
-      //   if (!<Avaliacao>(json)) {
-      //     this.showMessage('Erro ao avaliar!')
-      //   } else {
+      this.avaliacaoService.saveAvaliacao(this.avaliacao).then((json) => {
+        if (!<Avaliacao>(json)) {
+          this.showMessage('Erro ao avaliar!')
+        } else {
           this.iconLike = "thumbs-up";
           this.iconDeslike = "thumbs-down-outline";
           this.isLike = true;
           this.isDeslike = false;
-      //   }
-      // // })
+        }
+      })
     }
 
     this.loadList();

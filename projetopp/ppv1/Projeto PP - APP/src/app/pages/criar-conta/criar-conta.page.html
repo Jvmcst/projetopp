@@ -35,6 +35,12 @@
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input clearInput type="text" formControlName="email" name="email"></ion-input>
+
+      <ng-template [ngIf]=false>
+        <p>
+          Email inválido
+        </p>
+    </ng-template>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Senha</ion-label>

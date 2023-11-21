@@ -92,4 +92,10 @@ public interface PromocaoDao {
                         + " set foto = :foto, "
                         + " where idPromocao = :idPromocao;")
         int updateFoto(@Bind int idPromocao, @Bind String foto);
+
+        @SqlUpdate("update promocao set relevancia = " +
+        "ifnull (((select count(1) from avaliacao where idPromocao = :idPromocao and nota = 1/ " +
+        "(select count(1) from avaliacao where idPromocao = :idPromocao)) * 100), 0)" +
+        "where idPromocao = :idPromocao;")
+        int updateRelevancia(@Bind("idPromocao") int idPromocao);
 }

@@ -41,6 +41,11 @@ public class AvaliacaoController {
         return avaliacaoService.getNumberTotalAvaliacoes(idPromocao);
     }
 
+    @GetMapping("numberLikes/{idPromocao}")
+    public int getAllNumberLikes(@PathVariable("idPromocao") int idPromocao) {
+        return avaliacaoService.getAllNumberLikes(idPromocao);
+    }
+
     @PostMapping({ "", "/" })
     public Avaliacao insert(@RequestBody Avaliacao avaliacao) {
         return avaliacaoService.insert(avaliacao);

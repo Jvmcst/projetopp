@@ -49,4 +49,8 @@ export class PromocaoService {
   async listToday() {
     return await this.httpClient.get(this.url + "/today").toPromise();
   }
+
+  async updateRelevancia(idPromocao: number){
+    return await this.httpClient.get(this.url + "/relevancia/" + idPromocao).toPromise();
+  }
 }

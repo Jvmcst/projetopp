@@ -47,6 +47,10 @@ public class AvaliacaoService {
         return avaliacaoDao.getNumberTotalAvaliacoes(idPromocao);
     }
 
+    public int getAllNumberLikes(int idPromocao) {
+        return avaliacaoDao.getAllNumberLikes(idPromocao);
+    }
+
     public void delete(Avaliacao avaliacao) {
         avaliacaoDao.delete(avaliacao.getIdAvaliacao());
     }

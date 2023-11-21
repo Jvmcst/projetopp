@@ -34,9 +34,9 @@ export class AvaliacaoService {
     return await this.httpClient.get(this.url + "/numberTotal/" + idPromocao).toPromise();
   }
 
-  async getAllNumberLikes(idPromocao: number) {
-    return await this.httpClient.get(this.url + "/numberLikes/" + idPromocao).toPromise();
-  }
+  // async getAllNumberLikes(idPromocao: number) {
+  //   return await this.httpClient.get(this.url + "/numberLikes/" + idPromocao).toPromise();
+  // }
 
   async findByIdUsuarioIdPromocao(idUsuario: number, idPromocao: number) {
     return await this.httpClient.get(this.url + "/" + idUsuario + "/" + idPromocao).toPromise();
