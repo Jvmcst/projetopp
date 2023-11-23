@@ -35,24 +35,22 @@
     <ion-item>
       <ion-label position="floating">Email</ion-label>
       <ion-input clearInput type="text" formControlName="email" name="email"></ion-input>
-
-      <ng-template [ngIf]=false>
-        <p>
-          Email inválido
-        </p>
-    </ng-template>
     </ion-item>
-    <ion-item>
-      <ion-label position="floating">Senha</ion-label>
-      <ion-input clearInput type="password" formControlName="senha" name="senha"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Repita a senha</ion-label>
-      <ion-input clearInput type="password" formControlName="senhaRepetida" name="senhaRepetida" appPasswordMatch="senha"></ion-input>
-      <ion-text color="danger" *ngIf="formGroup?.get('senhaRepetida')?.hasError('passwordMatch')">
-        As senhas não coincidem.
-      </ion-text>
-    </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Senha</ion-label>
+    <ion-input clearInput type="text" formControlName="senha" ></ion-input>
+    
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Confirmação senha</ion-label>
+    <ion-input clearInput type="text" formControlName="senha2"  ></ion-input>
+    <ng-template [ngIf]=false>
+      
+        Senha diferente
+      
+  </ng-template>
+  </ion-item>
     
     <ion-item>
       <ion-label position="stacked">Telefone</ion-label>

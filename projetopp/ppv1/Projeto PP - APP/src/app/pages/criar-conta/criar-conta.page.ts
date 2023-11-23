@@ -26,20 +26,20 @@ export class CriarContaPage implements OnInit {
         Validators.email,
         Validators.required,
       ])],
-      'senha': [, Validators.compose([
+      'senha': ['', Validators.compose([
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(4),
       ])],
-      'senhaRepetida': [, Validators.compose([
+      'senha2': ['', Validators.compose([
         Validators.required,
-        Validators.minLength(8),
+        Validators.minLength(4),
       ])],
       'telefone': [, Validators.compose([
         Validators.required,
         Validators.maxLength(11),
         Validators.minLength(11)
       ])],
-    }, { Validators: passwordsMatch() });
+    }, { validators: this.senha2IgualSenha });
 
   }
 
@@ -136,18 +136,39 @@ export class CriarContaPage implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+  senha2IgualSenha(formGroup: FormGroup) {
+    const senha2 = formGroup.get('senha2')?.value;
+    const senha = formGroup.get('senha')?.value;
+
+    // Verifica se as senhas são iguais
+    if (senha !== senha2) {
+      formGroup.get('senha2')?.setErrors({ senhasDiferentes: true });
+
+    } else {
+      formGroup.get('senha2')?.setErrors(null);
+    }
+  }
 
 }
 
-export function passwordsMatch(): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const senha = control.get('senha')?.value;
-    const senhaRepetida = control.get('senhaRepetida')?.value;
 
-    return senha === senhaRepetida ? null : { passwordsNotMatch: true };
-  };
-}
 
+
+
+// export function verify(): ValidatorFn {
+//   return (control:AbstractControl) : ValidationErrors | null => {
+
+//       const value = control.value;
+
+//       if (!value) {
+//           return null;
+//       }
+
+//       const passwordValid = false;
+
+//       return !passwordValid ? {passwordStrength:true}: null;
+//   }
+// }
 
 
 // export function verify(): ValidatorFn {

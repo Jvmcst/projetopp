@@ -23,7 +23,7 @@ Content-Type: application/json
         "relevancia": 0,
         "status": "Ativa",
         "descricao": "Próximo ao vencimento",
-        "foto": "Sem foto"
+        "foto": "dio.png"
 }
 
 ###

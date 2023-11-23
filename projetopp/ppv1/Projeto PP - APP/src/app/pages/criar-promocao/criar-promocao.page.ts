@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { ActivatedRoute } from '@angular/router';
 import { ActionSheetController, AlertController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Categoria } from 'src/app/model/categoria';
+import { Foto } from 'src/app/model/foto';
 import { Promocao } from 'src/app/model/promocao';
 import { Supermercado } from 'src/app/model/supermercado';
 import { CategoriaService } from 'src/app/services/categoria.service';
@@ -69,7 +70,7 @@ export class CriarPromocaoPage implements OnInit {
 
       ])],
       'foto': [, Validators.compose([
-        Validators.required,
+        // Validators.required,
       ])],
     }, { validators: creatDateRangeValidator() });
 
@@ -172,6 +173,7 @@ export class CriarPromocaoPage implements OnInit {
   }
 
   async save() {
+    debugger
     this.promocao.idUsuario = this.usuarioService.recoverIdUsuario();
     this.promocao.idCategoria = this.formGroup.value.idCategoria;
     this.promocao.idSupermercado = this.formGroup.value.idSupermercado;
@@ -183,6 +185,8 @@ export class CriarPromocaoPage implements OnInit {
     this.promocao.descricao = this.formGroup.value.descricao;
     this.promocao.foto = this.formGroup.value.foto;
     this.promocao.status = this.formGroup.value.status;
+
+    // await this.fotoService.upload(this.promocao.foto, "");
 
     if (this.promocao.status === "Expirada") {
       const alert = await this.alertController.create({
@@ -228,7 +232,7 @@ export class CriarPromocaoPage implements OnInit {
           this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
         });
     }
-    this.promocao.foto = this.formGroup.value.foto;
+    
   }
 
   async showMessage(texto: string) {

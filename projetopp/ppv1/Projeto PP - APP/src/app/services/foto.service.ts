@@ -20,6 +20,7 @@ export class FotoService {
   }
 
   async register() {
+    debugger
     const fotoCapturada = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera, 
@@ -29,9 +30,11 @@ export class FotoService {
     let foto = new Foto();
     foto.webPath = fotoCapturada.webPath;
     this.foto = foto;
+
+    console.log(this.foto);
   }
 
-  private async upload(photo: Photo, nomeImagem: string) {
+   async upload(photo: Photo, nomeImagem: string) {
     let response = await fetch(photo.webPath!);
     let blob = await response.blob();
 
