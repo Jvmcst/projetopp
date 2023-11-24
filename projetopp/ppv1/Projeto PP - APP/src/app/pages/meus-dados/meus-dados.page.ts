@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2} from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActionSheetController, AlertController, NavController, ToastController } from '@ionic/angular';
 import { Usuario } from 'src/app/model/usuario';
@@ -13,9 +13,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class MeusDadosPage implements OnInit {
   usuario: Usuario;
   formGroup: FormGroup;
+  selectedImage: any;
   darkTheme: boolean = false;
 
-  constructor(private renderer : Renderer2, private actionSheetController: ActionSheetController, private fotoService: FotoService, private usuarioService: UsuarioService, private formBuilder: FormBuilder, private navController: NavController, private toastController: ToastController, private alertController: AlertController) {
+  constructor(private renderer: Renderer2, private actionSheetController: ActionSheetController, private fotoService: FotoService, private usuarioService: UsuarioService, private formBuilder: FormBuilder, private navController: NavController, private toastController: ToastController, private alertController: AlertController) {
     this.usuario = new Usuario();
 
     this.formGroup = formBuilder.group({
@@ -47,11 +48,13 @@ export class MeusDadosPage implements OnInit {
         this.formGroup.get('foto')?.setValue(this.usuario.foto);
         this.formGroup.get('senha')?.setValue(this.usuario.senha);
         this.formGroup.get('telefone')?.setValue(this.usuario.telefone);
+
+        this.selectedImage = this.usuario.foto;
       });
     }
   }
 
-  mudarTema(){
+  mudarTema() {
     this.darkTheme = !this.darkTheme; // Toggle the current theme
     if (this.darkTheme) {
       this.renderer.setAttribute(document.body, 'color-theme', 'dark');
@@ -86,25 +89,28 @@ export class MeusDadosPage implements OnInit {
   }
 
   async save() {
-    this.usuario.nome = this.formGroup.value.nome;
-    this.usuario.email = this.formGroup.value.email;
-    this.usuario.senha = this.formGroup.value.senha;
-    this.usuario.telefone = this.formGroup.value.telefone;
-    //this.usuario.foto = this.formGroup.value.foto;
-    this.usuario.foto = "Ainda sem fotos!";
+    let nomeImagem = new Date().getTime() + "." + this.fotoService.foto.format;
+    this.fotoService.upload(this.fotoService.foto, nomeImagem).then(async (json) => {
+      this.usuario.nome = this.formGroup.value.nome;
+      this.usuario.email = this.formGroup.value.email;
+      this.usuario.senha = this.formGroup.value.senha;
+      this.usuario.telefone = this.formGroup.value.telefone;
+      //usuario.foto = this.formGroup.value.foto;
+      this.usuario.foto = "http://localhost/img/" + nomeImagem;
 
-    this.usuarioService.saveUsuario(this.usuario).then((json) => {
-      this.usuario = <Usuario>(json);
-      if (this.usuario) {
-        this.showMessage('Usuário registrado com sucesso!');
-        this.navController.navigateBack('/home');
-      } else {
-        this.showMessage('Erro ao salvar a conta!')
-      }
-    })
-      .catch((error) => {
-        this.showMessage('Erro ao salvar a conta! Erro: ' + error['mensage']);
-      });
+      this.usuarioService.saveUsuario(this.usuario).then((json) => {
+        this.usuario = <Usuario>(json);
+        if (this.usuario) {
+          this.showMessage('Usuário registrado com sucesso!');
+          this.navController.navigateBack('/home');
+        } else {
+          this.showMessage('Erro ao salvar a conta!')
+        }
+      })
+        .catch((error) => {
+          this.showMessage('Erro ao salvar a conta! Erro: ' + error['mensage']);
+        });
+    });
   }
 
   async showMessage(texto: string) {
@@ -143,5 +149,20 @@ export class MeusDadosPage implements OnInit {
       ]
     })
     await alert.present();
+  }
+
+  previewImage(event: any) {
+    debugger;
+
+    const file = event.target?.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target) {
+          this.selectedImage = e.target.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

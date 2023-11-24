@@ -56,7 +56,12 @@ public class AvaliacaoService {
     }
 
     public Avaliacao findByIdUsuarioIdPromocao(int idUsuario, int idPromocao) {
-        return avaliacaoDao.findByIdUsuarioIdPromocao(idUsuario, idPromocao);
+        Avaliacao avaliacao = avaliacaoDao.findByIdUsuarioIdPromocao(idUsuario, idPromocao);
+        if (avaliacao == null) {
+            return new Avaliacao();
+        };
+
+        return avaliacao;
     }
 
     public List<Avaliacao> findByIdPromocao(int idPromocao) {

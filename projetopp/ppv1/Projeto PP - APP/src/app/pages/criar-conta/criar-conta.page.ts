@@ -61,7 +61,7 @@ export class CriarContaPage implements OnInit {
     await this.fotoService.register();
   }
 
-  async removeFoto(posicao: number) {
+  async removeFoto() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Fotos',
       buttons: [{
@@ -83,14 +83,25 @@ export class CriarContaPage implements OnInit {
       if (<Boolean>(json)) {
         this.showMessage("Email já cadastrado!");
       } else {
+        
+        let nomeImagem: string;
+
+        if (this.fotoService.foto === undefined){
+          nomeImagem = "usuario.png";
+        } else {
+          nomeImagem = new Date().getTime() + "." + this.fotoService.foto.format;
+          this.fotoService.upload(this.fotoService.foto, nomeImagem).then();
+        }
+
+        
+
         let usuario = new Usuario();
 
         usuario.nome = this.formGroup.value.nome;
         usuario.email = this.formGroup.value.email;
         usuario.senha = this.formGroup.value.senha;
         usuario.telefone = this.formGroup.value.telefone;
-        //usuario.foto = this.formGroup.value.foto;
-        usuario.foto = "Ainda sem fotos!";
+        usuario.foto = "http://localhost/img/" + nomeImagem;
 
         this.usuarioService.saveUsuario(usuario).then((json) => {
           usuario = <Usuario>(json);
@@ -117,11 +128,13 @@ export class CriarContaPage implements OnInit {
     toast.present();
   }
 
-  openGallery() {
+  async openGallery() {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
     if (fileInput) {
       fileInput.click();
     }
+
+    this.fotoService.register();
   }
 
   previewImage(event: any) {
@@ -136,6 +149,7 @@ export class CriarContaPage implements OnInit {
       reader.readAsDataURL(file);
     }
   }
+
   senha2IgualSenha(formGroup: FormGroup) {
     const senha2 = formGroup.get('senha2')?.value;
     const senha = formGroup.get('senha')?.value;

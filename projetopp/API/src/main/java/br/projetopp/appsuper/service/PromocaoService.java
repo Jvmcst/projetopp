@@ -62,7 +62,9 @@ public class PromocaoService {
         return promocaoDao.findToday(date);
     }
 
-    public void fotoUpdate(int id, String foto){
-        promocaoDao.updateFoto(id, foto);
-    }
+    // public void fotoUpdate(int id, String foto){
+    //     System.err.println(id);
+    //     System.err.println(foto);
+    //     promocaoDao.updateFoto(id, foto);
+    // }
 }

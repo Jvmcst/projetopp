@@ -15,8 +15,7 @@
     <ion-item-sliding *ngFor="let promocao of promocaos">
         <ion-item [routerLink]="['/criar-promocao/', promocao.idPromocao]" detail>
           <ion-thumbnail slot="start">
-            <!-- <img [src]="promocao.foto" /> -->
-            <img src="https://i1.sndcdn.com/avatars-253MmMf9QZzxVBJi-rvlyeg-t500x500.jpg" />
+            <img [src]="promocao.foto">
           </ion-thumbnail>
           <ion-label>
             <p>

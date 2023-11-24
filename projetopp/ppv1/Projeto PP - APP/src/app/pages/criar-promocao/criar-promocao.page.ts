@@ -25,6 +25,7 @@ export class CriarPromocaoPage implements OnInit {
   promocao: Promocao;
   dateToday: string;
   dateExpirada: string;
+  selectedImage: any;
   darkTheme: boolean = false;
 
   constructor(private alertController: AlertController, private renderer: Renderer2, private usuarioService: UsuarioService, private loadingController: LoadingController, private categoriaService: CategoriaService, private supermercadoService: SupermercadoService, private activatedRoute: ActivatedRoute, private actionSheetController: ActionSheetController, private fotoService: FotoService, private promocaoService: PromocaoService, private formBuilder: FormBuilder, private navController: NavController, private toastController: ToastController) {
@@ -70,7 +71,7 @@ export class CriarPromocaoPage implements OnInit {
 
       ])],
       'foto': [, Validators.compose([
-        // Validators.required,
+
       ])],
     }, { validators: creatDateRangeValidator() });
 
@@ -90,6 +91,8 @@ export class CriarPromocaoPage implements OnInit {
         this.formGroup.get('foto')?.setValue(this.promocao.foto);
 
         this.isEnabled = true;
+
+        this.selectedImage = this.promocao.foto;
       });
     }
   }
@@ -150,9 +153,30 @@ export class CriarPromocaoPage implements OnInit {
     }, 500);
   }
 
-
   async takePhoto() {
-    await this.fotoService.register();
+    this.fotoService.register();
+  }
+
+  async openGallery() {
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+
+    this.fotoService.register();
+  }
+
+  previewImage(event: any) {
+    const file = event.target?.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target) {
+          this.selectedImage = e.target.result as string;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   async removeFoto() {
@@ -173,66 +197,68 @@ export class CriarPromocaoPage implements OnInit {
   }
 
   async save() {
-    debugger
-    this.promocao.idUsuario = this.usuarioService.recoverIdUsuario();
-    this.promocao.idCategoria = this.formGroup.value.idCategoria;
-    this.promocao.idSupermercado = this.formGroup.value.idSupermercado;
-    this.promocao.nome = this.formGroup.value.nome;
-    this.promocao.valor = this.formGroup.value.valor;
-    this.promocao.dataInicio = this.formGroup.value.dataInicio;
-    this.promocao.dataTermino = this.formGroup.value.dataTermino;
-    this.promocao.relevancia = this.formGroup.value.relevancia;
-    this.promocao.descricao = this.formGroup.value.descricao;
-    this.promocao.foto = this.formGroup.value.foto;
-    this.promocao.status = this.formGroup.value.status;
+    let nomeImagem = new Date().getTime() + "." + this.fotoService.foto.format;
+    this.fotoService.upload(this.fotoService.foto, nomeImagem).then(async (json) => {
+      this.promocao.idUsuario = this.usuarioService.recoverIdUsuario();
+      this.promocao.idCategoria = this.formGroup.value.idCategoria;
+      this.promocao.idSupermercado = this.formGroup.value.idSupermercado;
+      this.promocao.nome = this.formGroup.value.nome;
+      this.promocao.valor = this.formGroup.value.valor;
+      this.promocao.dataInicio = this.formGroup.value.dataInicio;
+      this.promocao.dataTermino = this.formGroup.value.dataTermino;
+      this.promocao.relevancia = this.formGroup.value.relevancia;
+      this.promocao.descricao = this.formGroup.value.descricao;
+      this.promocao.foto = "http://localhost/img/" + nomeImagem;
+      this.promocao.status = this.formGroup.value.status;
 
-    // await this.fotoService.upload(this.promocao.foto, "");
-
-    if (this.promocao.status === "Expirada") {
-      const alert = await this.alertController.create({
-        header: 'Você tem certeza que quer encerrar essa promoção?',
-        message: 'Essa promoção não ficará mais visível para ninguém, inclusive você.',
-        buttons: [
-          {
-            text: 'Cancelar',
-            cssClass: 'danger'
-          },
-          {
-            text: 'Sim, encerrar promoção',
-            cssClass: 'amarelo',
-            handler: () => {
-              this.promocaoService.savePromocao(this.promocao).then((json) => {
-                this.promocao = <Promocao>(json);
-                if (this.promocao) {
-                  this.showMessage('Promoção registrada com sucesso!');
-                  this.navController.navigateBack('/home');
-                } else {
-                  this.showMessage('Erro ao salvar o registro!')
-                }
-              })
-                .catch((error) => {
-                  this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
-                });
+      if (this.promocao.status === "Expirada") {
+        const alert = await this.alertController.create({
+          header: 'Você tem certeza que quer encerrar essa promoção?',
+          message: 'Essa promoção não ficará mais visível para ninguém, inclusive você.',
+          buttons: [
+            {
+              text: 'Cancelar',
+              cssClass: 'danger'
+            },
+            {
+              text: 'Sim, encerrar promoção',
+              cssClass: 'amarelo',
+              handler: () => {
+                this.promocaoService.savePromocao(this.promocao).then((json) => {
+                  console.log("salvando")
+                  this.promocao = <Promocao>(json);
+                  if (this.promocao) {
+                    this.showMessage('Promoção registrada com sucesso!');
+                    this.navController.navigateBack('/home');
+                  } else {
+                    this.showMessage('Erro ao salvar o registro!')
+                  }
+                })
+                  .catch((error) => {
+                    this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
+                  });
+              }
             }
+          ]
+        })
+        await alert.present();
+      } else {
+        this.promocaoService.savePromocao(this.promocao).then((json) => {
+          this.promocao = <Promocao>(json);
+          if (this.promocao) {
+            this.showMessage('Promoção registrada com sucesso!');
+            this.navController.navigateBack('/home');
+          } else {
+            this.showMessage('Erro ao salvar o registro!')
           }
-        ]
-      })
-      await alert.present();
-    } else {
-      this.promocaoService.savePromocao(this.promocao).then((json) => {
-        this.promocao = <Promocao>(json);
-        if (this.promocao) {
-          this.showMessage('Promoção registrada com sucesso!');
-          this.navController.navigateBack('/home');
-        } else {
-          this.showMessage('Erro ao salvar o registro!')
-        }
-      })
-        .catch((error) => {
-          this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
-        });
-    }
-    
+        })
+          .catch((error) => {
+            this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
+          });
+      }
+    });
+
+
   }
 
   async showMessage(texto: string) {

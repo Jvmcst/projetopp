@@ -24,10 +24,11 @@ ion-img {
 }
 
 
-
 .profile-photo {
     padding: 4px;
     display: block;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     /* Isso tornará a imagem redonda */
     overflow: hidden;

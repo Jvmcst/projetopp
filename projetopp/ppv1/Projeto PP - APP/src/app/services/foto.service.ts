@@ -12,26 +12,24 @@ export class FotoService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
-  url: string = 'http://localhost:8080/api/v1/promocao/foto/{id}';
+  //url: string = 'http://localhost:8080/api/v1/promocao/foto/{id}';
 
-  public foto: Foto;
+  url: string = 'http://localhost:8080/api/v1/promocao/upload';
+
+  public foto!: Photo;
+
   constructor(private httpClient: HttpClient) {
-    this.foto = new Foto();
+    
   }
 
   async register() {
-    debugger
     const fotoCapturada = await Camera.getPhoto({
       resultType: CameraResultType.Uri,
       source: CameraSource.Camera, 
       quality: 100
     });
 
-    let foto = new Foto();
-    foto.webPath = fotoCapturada.webPath;
-    this.foto = foto;
-
-    console.log(this.foto);
+    this.foto = fotoCapturada;
   }
 
    async upload(photo: Photo, nomeImagem: string) {
@@ -40,6 +38,9 @@ export class FotoService {
 
     const formData = new FormData();
     formData.append('file', blob, nomeImagem);
+
+    console.log( formData.append('file', blob, nomeImagem));
+
     await this.httpClient.post(this.url, formData).toPromise();
   }
 

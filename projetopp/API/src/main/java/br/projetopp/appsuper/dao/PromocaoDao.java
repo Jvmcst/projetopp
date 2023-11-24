@@ -88,10 +88,10 @@ public interface PromocaoDao {
                         + " INNER JOIN favorito ON promocao.idPromocao = favorito.idPromocao and favorito.idUsuario = :idUsuario;")
         List<Promocao> getAllSavedByUsuario(@Bind("idUsuario") int idUsuario);
 
-        @SqlUpdate("update promocao "
-                        + " set foto = :foto, "
-                        + " where idPromocao = :idPromocao;")
-        int updateFoto(@Bind int idPromocao, @Bind String foto);
+        // @SqlUpdate("update promocao"
+        //                 + " set foto = :foto "
+        //                 + " where idPromocao = :idPromocao;")
+        // int updateFoto(@Bind int idPromocao, @Bind String foto);
 
         @SqlUpdate("update promocao set relevancia = " +
         "ifnull (((select count(1) from avaliacao where idPromocao = :idPromocao and nota = 1/ " +

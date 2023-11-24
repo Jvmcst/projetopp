@@ -67,25 +67,20 @@ export class DetalhesPromocaoPage implements OnInit {
               this.nameButton = "Favorito";
               this.isFavorite = true;
             }
-          })
+          });
 
           this.avaliacaoService.findByIdUsuarioIdPromocao(this.usuarioService.recoverIdUsuario(), this.promocao.idPromocao).then((json) => {
-            let avaliacao = <Avaliacao>(json);
-
-            if (avaliacao !== null) {
-              this.avaliacao = avaliacao;
-
-              if (this.avaliacao.nota === 1) {
-                this.iconDeslike = "thumbs-down-outline";
-                this.iconLike = "thumbs-up";
-                this.isDeslike = false;
-                this.isLike = true;
-              } else {
-                this.iconDeslike = "thumbs-down";
-                this.iconLike = "thumbs-up-outline";
-                this.isDeslike = true;
-                this.isLike = false;
-              }
+            this.avaliacao = <Avaliacao>(json);
+            if (this.avaliacao.nota === 1) {
+              this.iconDeslike = "thumbs-down-outline";
+              this.iconLike = "thumbs-up";
+              this.isDeslike = false;
+              this.isLike = true;
+            } else if (this.avaliacao.nota === -1) {
+              this.iconDeslike = "thumbs-down";
+              this.iconLike = "thumbs-up-outline";
+              this.isDeslike = true;
+              this.isLike = false;
             }
           })
 
@@ -120,27 +115,24 @@ export class DetalhesPromocaoPage implements OnInit {
     return result[2] + "/" + result[1] + "/" + result[0];
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async loadList() {
     this.showLoader();
 
-    let idPromocao = this.activatedRoute.snapshot.params['id'];
+    await this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
+      debugger;
+      this.numberTotal = <number>(json);
 
-    if (idPromocao != null) {
-      this.promocaoService.findByIdPromocao(idPromocao).then((json) => {
-        this.promocao = <Promocao>(json);
-      });
+    });
 
-      await this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
-        this.numberTotal = <number>(json);
-      });
+    await this.avaliacaoService.findByIdUsuarioIdPromocao(this.usuarioService.recoverIdUsuario(), this.promocao.idPromocao).then((json) => {
+      this.avaliacao = <Avaliacao>(json);
+    });
 
-      await this.promocaoService.updateRelevancia(idPromocao).then((json) => {
-        this.promocao = <Promocao>(json);
-      });
-    }
+    await this.promocaoService.updateRelevancia(this.promocao.idPromocao).then((json) => {
+      this.promocao = <Promocao>(json);
+    });
 
     this.closeLoader();
   }
@@ -196,8 +188,8 @@ export class DetalhesPromocaoPage implements OnInit {
       })
 
       this.loadList();
-
       return;
+
     } else {
       this.avaliacao.nota = 1;
 

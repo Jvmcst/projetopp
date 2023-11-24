@@ -11,6 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class PerfilPage implements OnInit {
   isDev: boolean;
   darkTheme: boolean = false;
+  usuario: Usuario;
 
   public appPages = [
     { title: 'Meus dados', url: '/meus-dados', icon: 'cog', color: 'yellow-light' },
@@ -24,19 +25,20 @@ export class PerfilPage implements OnInit {
     { title: 'Categorias', url: '/categoria', icon: 'apps', color: 'intense-red' },
   ];
 
-  constructor(private renderer : Renderer2, private toastController: ToastController, private navController: NavController, private usuarioService: UsuarioService) {
+  constructor(private renderer: Renderer2, private toastController: ToastController, private navController: NavController, private usuarioService: UsuarioService) {
     this.isDev = false;
+    this.usuario = new Usuario();
 
     this.usuarioService.findByIdUsuario(this.usuarioService.recoverIdUsuario()).then((json) => {
-      let usuario = <Usuario>(json);
+      this.usuario = <Usuario>(json);
 
-      this.usuarioService.checkDev(usuario.email).then((json) => {
+      this.usuarioService.checkDev(this.usuario.email).then((json) => {
         this.isDev = <boolean>(json);
       });
     });
   }
 
-  mudarTema(){
+  mudarTema() {
     this.darkTheme = !this.darkTheme; // Toggle the current theme
     if (this.darkTheme) {
       this.renderer.setAttribute(document.body, 'color-theme', 'dark');

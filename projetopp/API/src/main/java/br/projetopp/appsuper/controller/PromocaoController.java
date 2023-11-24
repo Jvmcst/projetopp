@@ -5,12 +5,9 @@ import br.projetopp.appsuper.service.PromocaoService;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/promocao")
 @CrossOrigin("*")
 public class PromocaoController {
-
+    private String uploadDirectory = "C:\\xampp\\htdocs\\img";
     private final PromocaoService promocaoService;
 
     public PromocaoController(PromocaoService promocaoService) {
@@ -94,38 +91,16 @@ public class PromocaoController {
         return promocao;
     }
 
-    String uploadDirectory = "c:\\savefotos\\";
-
-    @PostMapping(path = "/foto/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public ResponseEntity<Object> saveEmployee(@RequestParam("file") MultipartFile document, @PathVariable int id) {
+    @PostMapping(path = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public void saveEmployee(@RequestParam("file") MultipartFile document) {
         try {
-
-            // Gere um nome de arquivo único com UUID
-            java.util.UUID uuid = java.util.UUID.randomUUID();
-            String fileName = uuid.toString();
-
-            // Nome do arquivo
-            // String fileName = "teste";
-            String originalFileName = document.getOriginalFilename();
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-            // Construa o caminho completo para o arquivo
-            // java.nio.file.Path filePath = Paths.get(uploadDirectory, fileName);
-
-            // Salve o arquivo no diretório
-            File file = new File(uploadDirectory, fileName + fileExtension);
+            String fileName = document.getOriginalFilename();
+            File file = new File(uploadDirectory, fileName);
             document.transferTo(file);
-
-            // Salve apenas o caminho no banco de dados...
-            String imageUrl = uploadDirectory + "\\" + fileName + fileExtension;
-            // FotoFesta foto = new FotoFesta();
-            // foto.setUrl(imageUrl); // Salvar o URL no objeto Foto
-            promocaoService.fotoUpdate(id, fileName);
-            return ResponseEntity.status(HttpStatus.OK).body("Sucesso");
+            
+            // String imageUrl = uploadDirectory + "\\" + fileName + fileExtension;
         } catch (IOException e) {
-            // Tratar exceção de leitura de arquivo
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao processar o arquivo.");
         }
     }
 }

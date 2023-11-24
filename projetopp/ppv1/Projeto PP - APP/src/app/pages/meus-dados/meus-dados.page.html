@@ -4,7 +4,8 @@
       <ion-back-button defaultHref="/perfil"></ion-back-button>
     </ion-buttons>
     <ion-title class="title1">Meus Dados</ion-title>
-    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon name="moon"></ion-icon></ion-button>
+    <ion-button color="transparent" slot="end" shape="round" (click)="mudarTema()"><ion-icon
+        name="moon"></ion-icon></ion-button>
     <!-- <ion-icon slot="end" name="moon"></ion-icon>
     <ion-toggle color="dark" slot="end" [enableOnOffLabels]="true" (click)="mudarTema()" [checked]="true"></ion-toggle> -->
   </ion-toolbar>
@@ -12,6 +13,23 @@
 
 <ion-content [fullscreen]="true">
   <form [formGroup]="formGroup" (ngSubmit)="save()">
+
+    <div class="content-container">
+      <ion-item class="photo-upload">
+
+        <ion-button fill="clear" (click)="takePhoto()" class="photo-button">
+          <ion-img [src]="selectedImage ? selectedImage : 'assets/icon/usuario.png'" class="profile-photo"></ion-img>
+        </ion-button>
+
+        <input type="file" (change)="previewImage($event)" accept="image/*" hidden>
+      </ion-item>
+
+      <ion-item class="change-photo-button">
+        <ion-button expand="block" fill="clear" class="change-photo-button" color="salmon" (click)="takePhoto()">
+          Selecionar foto de Perfil
+        </ion-button>
+      </ion-item>
+    </div>
 
     <ion-item>
       <ion-label position="floating">Nome</ion-label>
@@ -27,19 +45,15 @@
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Telefone</ion-label>
-      <input type="text" formControlName="telefone" name="telefone" class="form-control border-0 shadow-none" mask="(00) 00000-0000">  
+      <input type="text" formControlName="telefone" name="telefone" class="form-control border-0 shadow-none"
+        mask="(00) 00000-0000">
     </ion-item>
-
-    <ion-button fill="outline" (click)="takePhoto()" color="yellow-light" expand="block">
-      <ion-icon slot="start" name="camera"></ion-icon>
-      Escolher foto
-    </ion-button>
 
     <ion-button type="submit" color="salmon" expand="block" [disabled]="!formGroup.valid">
       Salvar
     </ion-button>
 
-    <ion-button (click)="remove()" expand="block" color="intense-red" >
+    <ion-button (click)="remove()" expand="block" color="intense-red">
       <ion-icon slot="start" name="alert-circle"></ion-icon>
       Excluir conta
     </ion-button>
