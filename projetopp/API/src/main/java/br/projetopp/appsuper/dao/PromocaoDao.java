@@ -41,12 +41,14 @@ public interface PromocaoDao {
         @SqlQuery("select * "
                         + " from promocao "
                         + " where idUsuario = :idUsuario "
+                        + " and status = 'Ativa'"
                         + " order by nome;")
         List<Promocao> getAllByUsuario(@BindBean Usuario usuario);
 
         @SqlQuery("select *"
                         + " from promocao"
                         + " where idUsuario = :idUsuario"
+                        + " and status = 'Ativa'"
                         + " order by nome;")
         List<Promocao> getAllByUsuario(@Bind("idUsuario") int idUsuario);
 
@@ -74,28 +76,31 @@ public interface PromocaoDao {
                         + " from promocao"
                         + " where (idCategoria = :idCategoria OR 0 = :idCategoria) "
                         + " and (idSupermercado = :idSupermercado OR 0 = :idSupermercado) "
-                        + " and (nome like :searchField OR '%%' like :searchField);")
+                        + " and (nome like :searchField OR '%%' like :searchField)"
+                        + " and status = 'Ativa';")
         List<Promocao> find(@Bind("idCategoria") int idCategoria, @Bind("idSupermercado") int idSupermercado,
                         @Bind("searchField") String searchField);
 
         @SqlQuery("select *"
                         + " from promocao"
-                        + " where dataInicio = :date;")
+                        + " where dataInicio = :date"
+                        + " and status = 'Ativa'"
+                        + " order by nome;")
         List<Promocao> findToday(String date);
 
         @SqlQuery("select promocao.*"
                         + " from promocao"
-                        + " INNER JOIN favorito ON promocao.idPromocao = favorito.idPromocao and favorito.idUsuario = :idUsuario;")
+                        + " INNER JOIN favorito ON promocao.idPromocao = favorito.idPromocao and favorito.idUsuario = :idUsuario and status = 'Ativa';")
         List<Promocao> getAllSavedByUsuario(@Bind("idUsuario") int idUsuario);
 
         // @SqlUpdate("update promocao"
-        //                 + " set foto = :foto "
-        //                 + " where idPromocao = :idPromocao;")
+        // + " set foto = :foto "
+        // + " where idPromocao = :idPromocao;")
         // int updateFoto(@Bind int idPromocao, @Bind String foto);
 
         @SqlUpdate("update promocao set relevancia = " +
-        "ifnull (((select count(1) from avaliacao where idPromocao = :idPromocao and nota = 1/ " +
-        "(select count(1) from avaliacao where idPromocao = :idPromocao)) * 100), 0)" +
-        "where idPromocao = :idPromocao;")
+                        "ifnull (((select count(1) from avaliacao where idPromocao = :idPromocao and nota = 1/ " +
+                        "(select count(1) from avaliacao where idPromocao = :idPromocao)) * 100), 0)" +
+                        "where idPromocao = :idPromocao;")
         int updateRelevancia(@Bind("idPromocao") int idPromocao);
 }

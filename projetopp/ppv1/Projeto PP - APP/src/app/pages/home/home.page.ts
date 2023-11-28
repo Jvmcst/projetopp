@@ -93,11 +93,11 @@ export class HomePage implements OnInit {
   async loadList() {
     this.showLoader();
 
-    await this.supermercadoService.list().then(async (json) => {
+    await this.supermercadoService.list().then((json) => {
       this.supermercados = <Supermercado[]>(json);
     })
 
-    await this.promocaoService.listToday().then(async (json) => {
+    await this.promocaoService.listToday().then((json) => {
       this.promocaos = <Promocao[]>(json);
 
       if (this.promocaos.length === 0) {

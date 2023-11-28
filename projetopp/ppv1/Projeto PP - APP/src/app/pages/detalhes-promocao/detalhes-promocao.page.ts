@@ -122,7 +122,6 @@ export class DetalhesPromocaoPage implements OnInit {
 
     await this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
       this.numberTotal = <number>(json);
-
     });
 
     await this.avaliacaoService.findByIdUsuarioIdPromocao(this.usuarioService.recoverIdUsuario(), this.promocao.idPromocao).then((json) => {
