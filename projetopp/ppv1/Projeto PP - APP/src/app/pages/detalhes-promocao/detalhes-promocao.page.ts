@@ -115,13 +115,12 @@ export class DetalhesPromocaoPage implements OnInit {
     return result[2] + "/" + result[1] + "/" + result[0];
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async loadList() {
     this.showLoader();
 
     await this.avaliacaoService.getAllNumberAvaliacoes(this.promocao.idPromocao).then((json) => {
-      debugger;
       this.numberTotal = <number>(json);
 
     });
@@ -155,6 +154,14 @@ export class DetalhesPromocaoPage implements OnInit {
   }
 
   evaluate(value: string) {
+  
+    setTimeout(() => {
+      this.loadingController.dismiss().then(() => {
+      }).catch((erro) => {
+        console.log('Erro: ', erro)
+      });
+    }, 1000);
+
     this.avaliacao.idPromocao = this.promocao.idPromocao;
     this.avaliacao.idUsuario = this.usuarioService.recoverIdUsuario();
 

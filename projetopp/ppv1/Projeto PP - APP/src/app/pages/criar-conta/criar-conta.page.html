@@ -14,7 +14,7 @@
     <div class="content-container">
       <ion-item class="photo-upload">
         <ion-button fill="clear" (click)="takePhoto()" class="photo-button">
-          <ion-img [src]="selectedImage ? selectedImage : 'assets/icon/usuario.png'" class="profile-photo"></ion-img>
+          <ion-img [src]="selectedImage ? selectedImage : 'assets/icon/usuario.png'" id="image" class="profile-photo"></ion-img>
         </ion-button>
         <input type="file" (change)="previewImage($event)" accept="image/*" hidden>
       </ion-item>

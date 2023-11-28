@@ -154,8 +154,17 @@ export class CriarPromocaoPage implements OnInit {
   }
 
   async takePhoto() {
-    this.fotoService.register();
+    this.fotoService.register().then(() => {
+
+      let img = document.querySelector("#image");
+      img!.setAttribute('src', this.fotoService.foto.webPath!);
+    })
+      .catch((error): any => {
+        console.log(error);
+      });
   }
+
+
 
   async openGallery() {
     const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
@@ -197,68 +206,70 @@ export class CriarPromocaoPage implements OnInit {
   }
 
   async save() {
-    let nomeImagem = new Date().getTime() + "." + this.fotoService.foto.format;
-    this.fotoService.upload(this.fotoService.foto, nomeImagem).then(async (json) => {
-      this.promocao.idUsuario = this.usuarioService.recoverIdUsuario();
-      this.promocao.idCategoria = this.formGroup.value.idCategoria;
-      this.promocao.idSupermercado = this.formGroup.value.idSupermercado;
-      this.promocao.nome = this.formGroup.value.nome;
-      this.promocao.valor = this.formGroup.value.valor;
-      this.promocao.dataInicio = this.formGroup.value.dataInicio;
-      this.promocao.dataTermino = this.formGroup.value.dataTermino;
-      this.promocao.relevancia = this.formGroup.value.relevancia;
-      this.promocao.descricao = this.formGroup.value.descricao;
+    if (!(this.fotoService.foto === undefined)) {
+      let nomeImagem = new Date().getTime() + "." + this.fotoService.foto.format;
+      await this.fotoService.upload(this.fotoService.foto, nomeImagem)
       this.promocao.foto = "http://localhost/img/" + nomeImagem;
-      this.promocao.status = this.formGroup.value.status;
+    } else {
+      this.promocao.foto = "http://localhost/img/produto.png";
+    }
 
-      if (this.promocao.status === "Expirada") {
-        const alert = await this.alertController.create({
-          header: 'Você tem certeza que quer encerrar essa promoção?',
-          message: 'Essa promoção não ficará mais visível para ninguém, inclusive você.',
-          buttons: [
-            {
-              text: 'Cancelar',
-              cssClass: 'danger'
-            },
-            {
-              text: 'Sim, encerrar promoção',
-              cssClass: 'amarelo',
-              handler: () => {
-                this.promocaoService.savePromocao(this.promocao).then((json) => {
-                  console.log("salvando")
-                  this.promocao = <Promocao>(json);
-                  if (this.promocao) {
-                    this.showMessage('Promoção registrada com sucesso!');
-                    this.navController.navigateBack('/home');
-                  } else {
-                    this.showMessage('Erro ao salvar o registro!')
-                  }
-                })
-                  .catch((error) => {
-                    this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
-                  });
-              }
+    this.promocao.idUsuario = this.usuarioService.recoverIdUsuario();
+    this.promocao.idCategoria = this.formGroup.value.idCategoria;
+    this.promocao.idSupermercado = this.formGroup.value.idSupermercado;
+    this.promocao.nome = this.formGroup.value.nome;
+    this.promocao.valor = this.formGroup.value.valor;
+    this.promocao.dataInicio = this.formGroup.value.dataInicio;
+    this.promocao.dataTermino = this.formGroup.value.dataTermino;
+    this.promocao.relevancia = this.formGroup.value.relevancia;
+    this.promocao.descricao = this.formGroup.value.descricao;
+    this.promocao.status = this.formGroup.value.status;
+
+    if (this.promocao.status === "Expirada") {
+      const alert = await this.alertController.create({
+        header: 'Você tem certeza que quer encerrar essa promoção?',
+        message: 'Essa promoção não ficará mais visível para ninguém, inclusive você.',
+        buttons: [
+          {
+            text: 'Cancelar',
+            cssClass: 'danger'
+          },
+          {
+            text: 'Sim, encerrar promoção',
+            cssClass: 'amarelo',
+            handler: () => {
+              this.promocaoService.savePromocao(this.promocao).then((json) => {
+                console.log("salvando")
+                this.promocao = <Promocao>(json);
+                if (this.promocao) {
+                  this.showMessage('Promoção registrada com sucesso!');
+                  this.navController.navigateBack('/home');
+                } else {
+                  this.showMessage('Erro ao salvar o registro!')
+                }
+              })
+                .catch((error) => {
+                  this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
+                });
             }
-          ]
-        })
-        await alert.present();
-      } else {
-        this.promocaoService.savePromocao(this.promocao).then((json) => {
-          this.promocao = <Promocao>(json);
-          if (this.promocao) {
-            this.showMessage('Promoção registrada com sucesso!');
-            this.navController.navigateBack('/home');
-          } else {
-            this.showMessage('Erro ao salvar o registro!')
           }
-        })
-          .catch((error) => {
-            this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
-          });
-      }
-    });
-
-
+        ]
+      })
+      await alert.present();
+    } else {
+      this.promocaoService.savePromocao(this.promocao).then((json) => {
+        this.promocao = <Promocao>(json);
+        if (this.promocao) {
+          this.showMessage('Promoção registrada com sucesso!');
+          this.navController.navigateBack('/home');
+        } else {
+          this.showMessage('Erro ao salvar o registro!')
+        }
+      })
+        .catch((error) => {
+          this.showMessage('Erro ao salvar o registro! Erro: ' + error['mensage']);
+        });
+    }
   }
 
   async showMessage(texto: string) {

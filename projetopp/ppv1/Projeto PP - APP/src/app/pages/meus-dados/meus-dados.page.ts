@@ -95,7 +95,6 @@ export class MeusDadosPage implements OnInit {
       this.usuario.email = this.formGroup.value.email;
       this.usuario.senha = this.formGroup.value.senha;
       this.usuario.telefone = this.formGroup.value.telefone;
-      //usuario.foto = this.formGroup.value.foto;
       this.usuario.foto = "http://localhost/img/" + nomeImagem;
 
       this.usuarioService.saveUsuario(this.usuario).then((json) => {
