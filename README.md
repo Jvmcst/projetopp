@@ -1,5 +1,5 @@
 # projetopp
-O Projeto Varejaço é um aplicativo que anuncia e recolhe promoções de mercados da região do Vale do Aço, por meio de postagem dos próprios usuários para que seja uma forma de ajuda mútua entre todos.
+O Projeto Varejaço é um aplicativo que divulga e reúne promoções de supermercados na região do Vale do Aço. Isso é feito por meio de postagens realizadas pelos próprios usuários, visando estabelecer uma dinâmica colaborativa e de auxílio mútuo entre todos os participantes.
 
 [Link for documentation (GitHub)](https://github.com/Jvmcst/projetopp/blob/f96d68e9e486bedf3d502a7bb709ef64d337e28b/projetopp/Documenta%C3%A7%C3%A3o/Documenta%C3%A7%C3%A3o%20VAREJACO.docx.pdf)
 
